@@ -1,3 +1,6 @@
 [submodule "third_party/assimp-3.3.1"]
 	path = third_party/assimp-3.3.1
 	url = https://github.com/assimp/assimp
+[submodule "third_party/glfw-3.3.6"]
+	path = third_party/glfw-3.3.6
+	url = git@github.com:glfw/glfw.git
