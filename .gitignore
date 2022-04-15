@@ -13,8 +13,6 @@ build/
 projects/OpenGL_Tutorials/*HW*
 
 # not yet
-projects/OpenGL_Tutorials/09_HW_Two_Rectangles_(VAO_VBO_Shaders)
-projects/OpenGL_Tutorials/10_Red_Triangle_(GLSL_In_Out)
 projects/OpenGL_Tutorials/11_Greenish_Triangle_(GLSL_Uniform)
 projects/OpenGL_Tutorials/12_HW_Triangle_Animation_(GLSL_Uniform)
 projects/OpenGL_Tutorials/13_Colorful_Triangle_(GLSL_layout_location)
