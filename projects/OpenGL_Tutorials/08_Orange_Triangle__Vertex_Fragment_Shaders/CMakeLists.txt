@@ -22,7 +22,7 @@ add_executable(08_Orange_Triangle ${SRCS})
 # linking
 target_link_libraries(08_Orange_Triangle glfw glad)
 
-# shader
+# shaders
 list(APPEND SHADERS "default.vert" "orange.frag")
 
 add_custom_command(

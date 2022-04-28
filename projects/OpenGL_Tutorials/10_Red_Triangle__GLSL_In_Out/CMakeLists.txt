@@ -23,10 +23,11 @@ add_executable(10_Red_Triangle ${SRCS})
 target_link_libraries(10_Red_Triangle glfw glad)
 
 # shaders
-list(APPEND SHADERS "${CMAKE_CURRENT_SOURCE_DIR}/pass_red_color.vert"
-                    "${CMAKE_CURRENT_SOURCE_DIR}/default.frag"
-)
-add_custom_command(TARGET 10_Red_Triangle POST_BUILD
-                   COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${SHADERS} $<TARGET_FILE_DIR:10_Red_Triangle>
-                   COMMENT "Copying dependent shaders"
+list(APPEND SHADERS "pass_red_color.vert" "default.frag")
+
+add_custom_command(
+    TARGET 10_Red_Triangle POST_BUILD
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${SHADERS} $<TARGET_FILE_DIR:10_Red_Triangle>
+        COMMENT "Copying dependent shaders"
 )
