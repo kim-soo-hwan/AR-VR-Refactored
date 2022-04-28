@@ -29,4 +29,5 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/04_Window__User_
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/05_Triangles__VAO_VBO_VAP")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/07_Rectangle__EBO")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/08_Orange_Triangle__Vertex_Fragment_Shaders")
-add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/10_Red_Triangle__GLSL_In_Out")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/09_Red_Triangle__GLSL_In_Out")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/10_HW_Template")
