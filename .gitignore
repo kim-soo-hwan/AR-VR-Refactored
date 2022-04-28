@@ -2,6 +2,9 @@
 .vscode/
 .vs/
 
+# macOS
+.DS_Store
+
 # build directory
 build/
 
