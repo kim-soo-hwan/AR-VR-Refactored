@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MESH_HPP__
+#define __MESH_HPP__
 
 #include <vector>
 using namespace std;
@@ -39,3 +40,5 @@ protected:
     GLint m_numVertices = 0;
     GLint m_numIndices  = 0;
 };
+
+#endif // __MESH_HPP__
