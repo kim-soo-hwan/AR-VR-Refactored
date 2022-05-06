@@ -13,11 +13,8 @@ elseif(UNIX)
     endif()
 endif()
 
-# source files
-list(APPEND SRCS "main.cpp" "window.cpp")
-
 # executable
-add_executable(04_Window_User_Input ${SRCS})
+add_executable(04_Window_User_Input "main.cpp")
 
 # linking
-target_link_libraries(04_Window_User_Input glfw glad)
+#target_link_libraries(04_Window_User_Input glfw glad swan)

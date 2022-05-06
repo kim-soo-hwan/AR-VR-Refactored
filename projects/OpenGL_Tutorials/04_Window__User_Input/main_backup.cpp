@@ -14,7 +14,7 @@ int main()
 
         // display
         window.display();
-
+        
         // user inputs
         window.processUserInputs();
     }

@@ -1,28 +1,25 @@
-#pragma once
+#include <iostream>
+using namespace std;
 
-// GLAD must be included before GLFW
-// It includes the required OpenGL headers like GL/gl.h
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <stdio.h>
+#include <utility.h>
 
 // vertex shader
 const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 vertexPosition;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(vertexPosition.x, vertexPosition.y, vertexPosition.z, 1.0);\n"
-"}\0";
+                                 "layout (location = 0) in vec3 vertexPosition;\n"
+                                 "void main()\n"
+                                 "{\n"
+                                 "   gl_Position = vec4(vertexPosition.x, vertexPosition.y, vertexPosition.z, 1.0);\n"
+                                 "}\0";
 
 // fragment shader
 const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 fragmentColor;\n"
-"void main()\n"
-"{\n"
-"   fragmentColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\n\0";
+                                   "out vec4 fragmentColor;\n"
+                                   "void main()\n"
+                                   "{\n"
+                                   "   fragmentColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                   "}\n\0";
 
-GLuint getDefaultShader()
+GLuint generateAndUseDefaultShaderProgram()
 {
     // create and compile the vertex shader
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -36,8 +33,8 @@ GLuint getDefaultShader()
     if (!success)
     {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n");
-        printf("%s\n", infoLog);
+        cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED" << endl;
+        cout << infoLog << endl;
     }
 
     // create and compile the fragment shader
@@ -50,8 +47,8 @@ GLuint getDefaultShader()
     if (!success)
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n");
-        printf("%s\n", infoLog);
+        cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED" << endl;
+        cout << infoLog << endl;
     }
 
     // create a shader program
@@ -67,13 +64,21 @@ GLuint getDefaultShader()
     if (!success)
     {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n");
-        printf("%s\n", infoLog);
+        cout << "ERROR::SHADER::FRAGMENT::LINKING_FAILED" << endl;
+        cout << infoLog << endl;
     }
 
     // delete the vertex and fragment shaders
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    // use the shader program
+    glUseProgram(shaderProgram);
+    
     return shaderProgram;
+}
+
+void deleteDefaultShaderProgram(const GLuint shaderProgram)
+{
+    glDeleteProgram(shaderProgram);
 }

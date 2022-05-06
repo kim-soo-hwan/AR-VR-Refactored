@@ -13,17 +13,10 @@ elseif(UNIX)
     endif()
 endif()
 
-# source files
-list(APPEND SRCS "window.cpp" "mesh.cpp")
-
 # executable
-add_executable(05_01_Triangle           "01_main_triangle.cpp"           ${SRCS})
-add_executable(05_02_Triangle_w_Shader  "02_main_triangle_w_shader.cpp"  ${SRCS})
-add_executable(05_03_Rectangle          "03_main_rectangle.cpp"          ${SRCS})
-add_executable(05_04_Rectangle_w_Shader "04_main_rectangle_w_shader.cpp" ${SRCS})
+add_executable(05_01_Triangle  "01_main_triangle.cpp" )
+add_executable(05_02_Rectangle "02_main_rectangle.cpp")
 
 # linking
-target_link_libraries(05_01_Triangle           glfw glad)
-target_link_libraries(05_02_Triangle_w_Shader  glfw glad)
-target_link_libraries(05_03_Rectangle          glfw glad)
-target_link_libraries(05_04_Rectangle_w_Shader glfw glad)
+target_link_libraries(05_01_Triangle  glfw glad swan)
+target_link_libraries(05_02_Rectangle glfw glad swan)

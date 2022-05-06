@@ -1,23 +1,19 @@
-#include "window.hpp"
+#include <iostream>
+using namespace std;
+
+void handleValue(int i) { cout << i << ", "; }
+void processValues() { }
+
+template<typename T1, typename... Tn>
+void processValues(T1 arg1, Tn... args)
+{
+    handleValue(arg1);
+    processValues(args...);
+}
 
 int main()
 {
-    // OpenGL window
-    Window window(800, 600, "Hello World");
-    window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-    // render loop
-    while (!window.shouldClose())
-    {
-        // wipe out
-        window.wipeOut();
-
-        // display
-        window.display();
-        
-        // user inputs
-        window.processUserInputs();
-    }
-
+    processValues(1);
+    
     return 0;
 }

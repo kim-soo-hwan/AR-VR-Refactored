@@ -1,111 +1,43 @@
-#include "mesh.hpp"
+#include <mesh.h>
 
 // constructor
 Mesh::Mesh(const int numVertices)
-: m_numVertices(numVertices)
+: _numVertices(numVertices)
 {
     // create a vertex array object
-    glGenVertexArrays(1, &m_VAO);
+    glGenVertexArrays(1, &_VAO);
 }
 
 // destructor
 Mesh::~Mesh()
 {
     // delete buffers
-    for(GLuint VBO : m_VBOs)    glDeleteBuffers(1, &VBO);
-    if (m_EBO != 0)             glDeleteBuffers(1, &m_EBO);
+    for(GLuint VBO : _VBOs)    glDeleteBuffers(1, &VBO);
+    if (_EBO != 0)             glDeleteBuffers(1, &_EBO);
 
     // delete the vertex array object
-    if (m_VAO != 0) glDeleteVertexArrays(1, &m_VAO);
+    if (_VAO != 0) glDeleteVertexArrays(1, &_VAO);
 }
 
 // setter
-void Mesh::addVertexAttribute(const GLint numComponentsPerVertex, const GLfloat* data)
-{
-    // bind the vertex array object
-    glBindVertexArray(m_VAO);
-
-    // create a vertex buffer object
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-
-    // bind it to the array buffer target on GPU
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    // copy the vertex array on host to the array buffer on device (GPU)
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numComponentsPerVertex * m_numVertices, data, GL_STATIC_DRAW);
-
-    // set the vertex attribute pointer
-    glVertexAttribPointer((GLuint)m_VBOs.size(), numComponentsPerVertex, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), (void*)0);
-    glEnableVertexAttribArray((GLuint)m_VBOs.size());
-
-    // unbind the vertex buffer object
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // unbind the vertex array object
-    glBindVertexArray(0);
-
-    // keep the vertex buffer ID
-    m_VBOs.push_back(VBO);
-}
-
-void Mesh::addVertexAttribute(const GLint numComponentsPerVertex1, const GLint numComponentsPerVertex2, const GLfloat* data)
-{
-    // constants
-    const GLint numComponentsPerVertex = numComponentsPerVertex1 + numComponentsPerVertex2;
-
-    // bind the vertex array object
-    glBindVertexArray(m_VAO);
-
-    // create a vertex buffer object
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-
-    // bind it to the array buffer target on GPU
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    // copy the vertex array on host to the array buffer on device (GPU)
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numComponentsPerVertex * m_numVertices, data, GL_STATIC_DRAW);
-
-    // set the vertex attribute pointer
-    glVertexAttribPointer((GLuint)m_VBOs.size(), numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), (void*)0);
-    glEnableVertexAttribArray((GLuint)m_VBOs.size());
-
-    // keep the vertex buffer ID
-    m_VBOs.push_back(VBO);
-
-    // set the vertex attribute pointer
-    glVertexAttribPointer((GLuint)m_VBOs.size(), numComponentsPerVertex2, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), (void*)(numComponentsPerVertex1*sizeof(GLfloat)));
-    glEnableVertexAttribArray((GLuint)m_VBOs.size());
-
-    // keep the vertex buffer ID
-    m_VBOs.push_back(VBO);
-
-    // unbind the vertex buffer object
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // unbind the vertex array object
-    glBindVertexArray(0);
-}
-
-void Mesh::setElementIndices(const GLint numIndices, const GLuint* data)
+void Mesh::setElementIndices(const GLuint* data, const GLint numIndices)
 {
     // set the number of vertices
-    m_numIndices = numIndices;
+    _numIndices = numIndices;
 
     // if an element buffer object is already created, delete it.
-    if (m_EBO != 0)
+    if (_EBO != 0)
     {
-        glDeleteBuffers(1, &m_EBO);
-        m_EBO = 0;
+        glDeleteBuffers(1, &_EBO);
+        _EBO = 0;
     }
 
     // create an element buffer object
-    glGenBuffers(1, &m_EBO);
+    glGenBuffers(1, &_EBO);
 
     // bind the element buffers and and copy the input to GPU
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_numIndices, data, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * _numIndices, data, GL_STATIC_DRAW);
 
     // unbind the element buffer object
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -122,21 +54,21 @@ void Mesh::setPointSize(const GLfloat size)
 void Mesh::draw(GLenum mode)
 {
     // bind the vertex array object
-    glBindVertexArray(m_VAO);
+    glBindVertexArray(_VAO);
 
     // if we don't have any indicies,
-    if (m_numIndices == 0)
+    if (_numIndices == 0)
     {
         // draw primitives from array data
-        glDrawArrays(mode, 0, m_numVertices);
+        glDrawArrays(mode, 0, _numVertices);
     }
     else
     {
         // bind the element array buffer
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
 
         // draw primitives from element data
-        glDrawElements(mode, m_numIndices, GL_UNSIGNED_INT, 0);
+        glDrawElements(mode, _numIndices, GL_UNSIGNED_INT, 0);
 
         // unbind the element array buffer
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

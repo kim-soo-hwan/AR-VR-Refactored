@@ -1,5 +1,5 @@
-#ifndef __MODEL_HPP__
-#define __MODEL_HPP__
+#ifndef __MODEL_H__
+#define __MODEL_H__
 
 // GLM
 #include <glm/glm.hpp>
@@ -39,4 +39,4 @@ protected:
     const Shader &shader_;
 };
 
-#endif // __MODEL_HPP__
+#endif // __MODEL_H__

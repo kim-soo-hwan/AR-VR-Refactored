@@ -1,6 +1,9 @@
-#include "window.hpp"
-#include "mesh.hpp"
-#include "util_shader.hpp"
+#include <window.h>
+#include <mesh.h>
+
+#ifdef __APPLE__
+#include <utility.h>
+#endif
 
 int main()
 {
@@ -9,7 +12,7 @@ int main()
     window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
 
     // vertex input
-    GLfloat vertices[] = {
+    float vertices[] = {
          0.5f,  0.5f, 0.0f,  // top right
          0.5f, -0.5f, 0.0f,  // bottom right
         -0.5f,  0.5f, 0.0f,  // top left 
@@ -21,11 +24,13 @@ int main()
 
     // mesh
     Mesh mesh(6);
-    mesh.setVertexPositions(3, vertices);
+    mesh.setVertexAttributes(vertices, 3);
 
+#ifdef __APPLE__
     // shader
-    glUseProgram(getDefaultShader());
-    
+    uint32_t shaderProgram = generateAndUseDefaultShaderProgram();
+#endif
+
     // render loop
     while (!window.shouldClose())
     {
@@ -41,6 +46,11 @@ int main()
         // user inputs
         window.processUserInputs();
     }
+
+#ifdef __APPLE__
+    // shader
+    deleteDefaultShaderProgram(shaderProgram);
+#endif
 
     return 0;
 }

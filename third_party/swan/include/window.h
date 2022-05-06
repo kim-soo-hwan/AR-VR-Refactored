@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __WINDOW_H__
+#define __WINDOW_H__
 
 // GLAD, GLFW
 // GLAD must be included before GLFW
@@ -24,12 +25,14 @@ public:
 
 protected:
     // window
-    GLFWwindow* m_window = NULL;
-    GLclampf m_R = 1.f;
-    GLclampf m_G = 1.f;
-    GLclampf m_B = 1.f;
-    GLclampf m_A = 1.f;
-    bool m_depthEnabled = false;
-    int m_width;
-    int m_height;
+    GLFWwindow* _window = NULL;
+    GLclampf _R = 1.f;
+    GLclampf _G = 1.f;
+    GLclampf _B = 1.f;
+    GLclampf _A = 1.f;
+    bool _depthEnabled = false;
+    int _width;
+    int _height;
 };
+
+#endif // __WINDOW_H__

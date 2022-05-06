@@ -7,13 +7,13 @@ using namespace std;
 #include <glm/glm.hpp>
 
 // Our Library
-#include "window.hpp"
+#include <window.h>
 
 // external variables
-extern glm::vec3 g_camerPosition;
-extern glm::vec3 G_WORLD_UP_VECTOR;
-extern glm::vec3 G_WORLD_FORWARD_VECTOR;
-const glm::vec3 G_WORLD_RIGHT_VECTOR = glm::cross(G_WORLD_FORWARD_VECTOR, G_WORLD_UP_VECTOR);
+//extern glm::vec3 g_camerPosition;
+//extern glm::vec3 G_WORLD_UP_VECTOR;
+//extern glm::vec3 G_WORLD_FORWARD_VECTOR;
+//const glm::vec3 G_WORLD_RIGHT_VECTOR = glm::cross(G_WORLD_FORWARD_VECTOR, G_WORLD_UP_VECTOR);
 
 // call back functions
 // ref) https://blog.mbedded.ninja/programming/languages/c-plus-plus/passing-a-cpp-member-function-to-a-c-callback/
@@ -44,13 +44,13 @@ void Window::resizeWindowCallback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new dimensions
     glViewport(0, 0, width, height);
 
-    m_width = width;
-    m_height = height;
+    _width = width;
+    _height = height;
 }
 
 Window::Window(const int width, const int height, const char* title)
-: m_width(width),
-  m_height(height)
+: _width(width),
+  _height(height)
 {
     // GLFW: initialize and configure (OpenGL 3.3 core)
     glfwInit();
@@ -63,8 +63,8 @@ Window::Window(const int width, const int height, const char* title)
 #endif
 
     // GLFW: create a window
-    m_window = glfwCreateWindow(width, height, title, NULL, NULL);
-    if (m_window == NULL)
+    _window = glfwCreateWindow(width, height, title, NULL, NULL);
+    if (_window == NULL)
     {
         cout << "Error: Failed to create a GLFW window" << endl;
         glfwTerminate();
@@ -72,19 +72,19 @@ Window::Window(const int width, const int height, const char* title)
     }
 
     // GLFW: make the OpenGL context of this window current
-    glfwMakeContextCurrent(m_window);
+    glfwMakeContextCurrent(_window);
 
     // GLFW: set callback functions
     Callback<void(GLFWwindow*, int, int)>::func = std::bind(&Window::resizeWindowCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     GLFWframebuffersizefun resizeWindowCallback = static_cast<GLFWframebuffersizefun>(Callback<void(GLFWwindow*, int, int)>::callback);
-    glfwSetFramebufferSizeCallback(m_window, resizeWindowCallback);
+    glfwSetFramebufferSizeCallback(_window, resizeWindowCallback);
 
     // GLAD: load all OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         cout << "Error: Failed to initialize GLAD" << endl;
         glfwTerminate();
-        m_window = NULL;
+        _window = NULL;
         return;
     }
 
@@ -94,42 +94,42 @@ Window::Window(const int width, const int height, const char* title)
 Window::~Window()
 {
     // GLFW: clear all GLFW resources
-    if (m_window)
+    if (_window)
     {
-        glfwDestroyWindow(m_window);
+        glfwDestroyWindow(_window);
         glfwTerminate();
     }
 }
 
 void Window::setBackgroundColor(const GLclampf R, const GLclampf G, const GLclampf B, const GLclampf A)
 {
-    m_R = R;
-    m_G = G;
-    m_B = B;
-    m_A = A;
+    _R = R;
+    _G = G;
+    _B = B;
+    _A = A;
 }
 
 bool Window::shouldClose() const
 {
-    if (m_window == NULL) return true;
+    if (_window == NULL) return true;
 
-    return glfwWindowShouldClose(m_window);
+    return glfwWindowShouldClose(_window);
 }
 
 void Window::wipeOut() const
 {
     // wipe out
-    glClearColor(m_R, m_G, m_B, m_A);   // a state-setting function
+    glClearColor(_R, _G, _B, _A);   // a state-setting function
 
     // a state-using function
-    if (m_depthEnabled) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-    else                glClear(GL_COLOR_BUFFER_BIT);
+    if (_depthEnabled) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+    else               glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Window::display() const
 {
     // GLFW: swap buffers
-    glfwSwapBuffers(m_window);
+    glfwSwapBuffers(_window);
 }
 
 void Window::processUserInputs()
@@ -138,8 +138,8 @@ void Window::processUserInputs()
     glfwPollEvents();
 
     // ESC
-    if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(m_window, true);
+    if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(_window, true);
 
     // time
     static float lastTime = (float)glfwGetTime();
@@ -151,36 +151,36 @@ void Window::processUserInputs()
     const float cameraSpeed = 2.5f;
     const float displacement = cameraSpeed * deltaTime;
 
-    // move forward
-    if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-        g_camerPosition += displacement * G_WORLD_FORWARD_VECTOR;
+    // // move forward
+    // if (glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS)
+    //     g_camerPosition += displacement * G_WORLD_FORWARD_VECTOR;
 
-    // move backward
-    if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
-        g_camerPosition -= displacement * G_WORLD_FORWARD_VECTOR;
+    // // move backward
+    // if (glfwGetKey(_window, GLFW_KEY_S) == GLFW_PRESS)
+    //     g_camerPosition -= displacement * G_WORLD_FORWARD_VECTOR;
 
-    // move right
-    if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-        g_camerPosition += displacement * G_WORLD_RIGHT_VECTOR;
+    // // move right
+    // if (glfwGetKey(_window, GLFW_KEY_D) == GLFW_PRESS)
+    //     g_camerPosition += displacement * G_WORLD_RIGHT_VECTOR;
 
-    // move left
-    if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-        g_camerPosition -= displacement * G_WORLD_RIGHT_VECTOR;
+    // // move left
+    // if (glfwGetKey(_window, GLFW_KEY_A) == GLFW_PRESS)
+    //     g_camerPosition -= displacement * G_WORLD_RIGHT_VECTOR;
 }
 
 int Window::getWidth() const
 {
-    return m_width;
+    return _width;
 }
 
 int Window::getHeight() const
 {
-    return m_height;
+    return _height;
 }
 
 void Window::setDepthEnabled(const bool enabled)
 {
-    m_depthEnabled = enabled;
-    if (m_depthEnabled) glEnable(GL_DEPTH_TEST);
-    else                glDisable(GL_DEPTH_TEST);
+    _depthEnabled = enabled;
+    if (_depthEnabled) glEnable(GL_DEPTH_TEST);
+    else               glDisable(GL_DEPTH_TEST);
 }
