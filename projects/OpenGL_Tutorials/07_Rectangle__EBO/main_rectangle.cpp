@@ -1,5 +1,9 @@
-#include "window.hpp"
-#include "mesh.hpp"
+#include <window.h>
+#include <mesh.h>
+
+#ifdef __APPLE__
+#include <utility.h>
+#endif
 
 int main()
 {
@@ -23,8 +27,13 @@ int main()
 
     // mesh
     Mesh mesh(4);
-    mesh.setVertexPositions(3, vertices);
-    mesh.setElementIndices(6, indices);
+    mesh.setVertexAttributes(vertices, 3);
+    mesh.setElementIndices(indices, 6);
+
+#ifdef __APPLE__
+    // shader
+    uint32_t shaderProgram = generateAndUseDefaultShaderProgram();
+#endif
 
     // render loop
     while (!window.shouldClose())
@@ -41,6 +50,11 @@ int main()
         // user inputs
         window.processUserInputs();
     }
+
+#ifdef __APPLE__
+    // shader
+    deleteDefaultShaderProgram(shaderProgram);
+#endif
 
     return 0;
 }

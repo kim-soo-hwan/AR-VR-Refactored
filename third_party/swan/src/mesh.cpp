@@ -50,9 +50,17 @@ void Mesh::setPointSize(const GLfloat size)
     glPointSize(size);
 }
 
+void Mesh::setShaderProgram(const shared_ptr<ShaderProgram> shaderProgram)
+{
+    _shaderProgram = shaderProgram;
+}
+
 // draw
 void Mesh::draw(GLenum mode)
 {
+    // shader program
+    if(_shaderProgram) _shaderProgram->use();
+    
     // bind the vertex array object
     glBindVertexArray(_VAO);
 

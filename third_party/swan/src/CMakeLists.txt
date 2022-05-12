@@ -14,7 +14,7 @@ elseif(UNIX)
 endif()
 
 # source files
-list(APPEND SRCS "window.cpp" "mesh.cpp" "utility.cpp")
+list(APPEND SRCS "window.cpp" "mesh.cpp" "utility.cpp" "shader.cpp")
 
 # library
 add_library(swan ${SRCS})

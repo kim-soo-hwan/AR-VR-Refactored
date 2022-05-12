@@ -1,12 +1,20 @@
-#include "window.hpp"
-#include "mesh.hpp"
-#include "shader.hpp"
+#include <window.h>
+#include <mesh.h>
+#include <shader.h>
 
 int main()
 {
     // OpenGL window
     Window window(800, 600, "Orange Triangle");
     window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+    // shader program
+    shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
+    //shaderProgram->createShader(GL_VERTEX_SHADER,   "default.vs");
+    //shaderProgram->createShader(GL_FRAGMENT_SHADER, "orange.fs");
+    //shaderProgram->attachAndLinkShaders();
+    shaderProgram->attachAndLinkShaders(GL_VERTEX_SHADER,   "default.vs",
+                                        GL_FRAGMENT_SHADER, "orange.fs");
 
     // vertex input
     GLfloat vertices[] = {
@@ -17,19 +25,14 @@ int main()
 
     // mesh
     Mesh mesh(3);
-    mesh.setVertexPositions(3, vertices);
-
-    // shader
-    Shader shader("default.vert", "orange.frag");
+    mesh.setVertexAttributes(vertices, 3);
+    mesh.setShaderProgram(shaderProgram);    
 
     // render loop
     while (!window.shouldClose())
     {
         // wipe out
         window.wipeOut();
-
-        // activate the shader
-        shader.use();
 
         // draw triangles
         mesh.draw();

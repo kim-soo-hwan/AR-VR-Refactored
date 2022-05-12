@@ -2,6 +2,7 @@
 #define __MESH_H__
 
 #include <vector>
+#include <memory>
 using namespace std;
 
 // GLAD, GLFW
@@ -9,6 +10,8 @@ using namespace std;
 // It includes the required OpenGL headers like GL/gl.h
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <shader.h>
 
 class Mesh
 {
@@ -50,17 +53,23 @@ public:
 
     void setElementIndices(const GLuint* data, const GLint numIndices);
     void setPointSize(const GLfloat size);
+    void setShaderProgram(const shared_ptr<ShaderProgram> shaderProgram);
 
     // draw
     void draw(GLenum mode = GL_TRIANGLES);
 
 protected:
+    // sum up the numbers of components per vertex using the parameter pack (C++11)
+    GLint sumNumComponentsPerVertex() { return 0; }
+
     template<typename T1, typename... Tn>
     GLint sumNumComponentsPerVertex(const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
     {
         return numComponentsPerVertex1 + sumNumComponentsPerVertex(numComponentsPerVertexN...);
     }
-    GLint sumNumComponentsPerVertex() { return 0; }
+
+    // set vertex attribute pointer using the parameter pack (C++11)
+    void setVertexAttributePointer(const GLfloat* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex) { }
 
     template<typename T1, typename... Tn>
     void setVertexAttributePointer(const GLfloat* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
@@ -74,8 +83,6 @@ protected:
         setVertexAttributePointer(data, numComponentsPerVertex, cummulatedNumComponentsPerVertex + numComponentsPerVertex1, numComponentsPerVertexN...);
     }
 
-    void setVertexAttributePointer(const GLfloat* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex) { }
-
 protected:
     // vertex array object
     GLuint _VAO = 0;               // vertex array object
@@ -88,6 +95,9 @@ protected:
     GLint  _numVertices = 0;
     GLint  _numIndices  = 0;
     GLuint _numVertexAttributes = 0;
+
+    // shader program
+    shared_ptr<ShaderProgram> _shaderProgram;
 };
 
 #endif // __MESH_H__

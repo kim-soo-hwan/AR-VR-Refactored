@@ -17,4 +17,4 @@ endif()
 add_executable(04_Window_User_Input "main.cpp")
 
 # linking
-#target_link_libraries(04_Window_User_Input glfw glad swan)
+target_link_libraries(04_Window_User_Input glfw glad swan)

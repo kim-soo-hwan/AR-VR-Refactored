@@ -13,17 +13,14 @@ elseif(UNIX)
     endif()
 endif()
 
-# source files
-list(APPEND SRCS "main.cpp" "window.cpp" "mesh.cpp" "shader.cpp")
-
 # executable
-add_executable(08_Orange_Triangle ${SRCS})
+add_executable(08_Orange_Triangle "main.cpp")
 
 # linking
-target_link_libraries(08_Orange_Triangle glfw glad)
+target_link_libraries(08_Orange_Triangle glfw glad swan)
 
 # shaders
-list(APPEND SHADERS "default.vert" "orange.frag")
+list(APPEND SHADERS "default.vs" "orange.fs")
 
 add_custom_command(
     TARGET 08_Orange_Triangle POST_BUILD
