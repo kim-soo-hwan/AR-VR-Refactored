@@ -1,6 +1,6 @@
-#include "window.hpp"
-#include "mesh.hpp"
-#include "shader.hpp"
+#include <window.h>
+#include <mesh.h>
+#include <shader.h>
 
 int main()
 {
@@ -8,6 +8,12 @@ int main()
     Window window(800, 600, "Red Triangle");
     window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
     
+    // shader program
+    shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
+    shaderProgram->createShader(GL_VERTEX_SHADER,   "pass_red_color.vs");
+    shaderProgram->createShader(GL_FRAGMENT_SHADER, "default.fs");
+    shaderProgram->attachAndLinkShaders();
+
     // vertex input
     GLfloat vertices[] = {
         -0.5f, -0.5f, 0.0f, // left  
@@ -17,19 +23,14 @@ int main()
 
     // mesh
     Mesh mesh(3);
-    mesh.setVertexPositions(3, vertices);
-
-    // shader
-    Shader shader("pass_red_color.vert", "default.frag");
+    mesh.setVertexAttributes(vertices, 3);
+    mesh.setShaderProgram(shaderProgram);
 
     // render loop
     while (!window.shouldClose())
     {
         // wipe out
         window.wipeOut();
-
-        // activate the shader
-        shader.use();
 
         // draw triangles
         mesh.draw();

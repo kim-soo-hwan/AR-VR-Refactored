@@ -5,27 +5,34 @@
 int main()
 {
     // OpenGL window
-    Window window(800, 600, "Orange Triangle");
+    Window window(800, 600, "Colorful Triangle");
     window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
-    shaderProgram->createShader(GL_VERTEX_SHADER,   "default.vs");
-    shaderProgram->createShader(GL_FRAGMENT_SHADER, "orange.fs");
+    shaderProgram->createShader(GL_VERTEX_SHADER,   "pass_color.vs");
+    shaderProgram->createShader(GL_FRAGMENT_SHADER, "default.fs");
     shaderProgram->attachAndLinkShaders();
 
     // vertex input
-    GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f, // left  
-         0.5f, -0.5f, 0.0f, // right 
-         0.0f,  0.5f, 0.0f  // top   
+    GLfloat positions[] = {
+         0.5f, -0.5f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, // bottom left
+         0.0f,  0.5f, 0.0f, // top
+    };
+
+    GLfloat colors[] = {
+        1.0f, 0.0f, 0.0f,   // bottom right
+        0.0f, 1.0f, 0.0f,   // bottom left
+        0.0f, 0.0f, 1.0f,   // top
     };
 
     // mesh
     Mesh mesh(3);
-    mesh.setVertexAttributes(vertices, 3);
+    mesh.setVertexAttributes(positions, 3);
+    mesh.setVertexAttributes(colors,    3);
     mesh.setShaderProgram(shaderProgram);
-
+    
     // render loop
     while (!window.shouldClose())
     {

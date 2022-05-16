@@ -1,8 +1,8 @@
 #ifndef __MESH_H__
 #define __MESH_H__
 
-#include <vector>
-#include <memory>
+#include <vector>   // vector
+#include <memory>   // shared_prt, make_shared
 using namespace std;
 
 // GLAD, GLFW
@@ -11,6 +11,7 @@ using namespace std;
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+// swan
 #include <shader.h>
 
 class Mesh
@@ -20,7 +21,7 @@ public:
     Mesh(const int numVertices);
 
     // destructor
-    ~Mesh();
+    virtual ~Mesh();
 
     // setter
     template<typename T1, typename... Tn>
@@ -35,6 +36,7 @@ public:
         // create a vertex buffer object
         GLuint VBO;
         glGenBuffers(1, &VBO);
+        _VBOs.push_back(VBO);
 
         // bind it to the array buffer target on GPU
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -43,29 +45,23 @@ public:
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numComponentsPerVertex * _numVertices, data, GL_STATIC_DRAW);
 
         // set the vertex attribute pointer    
-        glVertexAttribPointer(_numVertexAttributes, numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), (void*)0);
-        glEnableVertexAttribArray(_numVertexAttributes);
-
-        // next
-        _numVertexAttributes++;
-        setVertexAttributePointer(data, numComponentsPerVertex, numComponentsPerVertex1, numComponentsPerVertexN...);
+        setVertexAttributePointer(data, numComponentsPerVertex, 0, numComponentsPerVertex1, numComponentsPerVertexN...);
     }
 
     void setElementIndices(const GLuint* data, const GLint numIndices);
     void setPointSize(const GLfloat size);
-    void setShaderProgram(const shared_ptr<ShaderProgram> shaderProgram);
+    void setShaderProgram(const shared_ptr<ShaderProgram> &shaderProgram);
 
     // draw
     void draw(GLenum mode = GL_TRIANGLES);
 
 protected:
-    // sum up the numbers of components per vertex using the parameter pack (C++11)
-    GLint sumNumComponentsPerVertex() { return 0; }
-
-    template<typename T1, typename... Tn>
-    GLint sumNumComponentsPerVertex(const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
+    // sum up the numbers of components per vertex using the parameter pack
+    // C++11 Parameter Pack, C++17 Unary Fold
+    template<typename... T>
+    GLint sumNumComponentsPerVertex(const T... numComponentsPerVertex)
     {
-        return numComponentsPerVertex1 + sumNumComponentsPerVertex(numComponentsPerVertexN...);
+        return (... + numComponentsPerVertex);
     }
 
     // set vertex attribute pointer using the parameter pack (C++11)
@@ -75,7 +71,7 @@ protected:
     void setVertexAttributePointer(const GLfloat* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
     {
         // set the vertex attribute pointer
-        glVertexAttribPointer(_numVertexAttributes, numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), reinterpret_cast<void*>(cummulatedNumComponentsPerVertex));
+        glVertexAttribPointer(_numVertexAttributes, numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), reinterpret_cast<void*>(cummulatedNumComponentsPerVertex * sizeof(GLfloat)));
         glEnableVertexAttribArray(_numVertexAttributes);
 
         // next

@@ -11,7 +11,7 @@ class Window
 {
 public:
     Window(const int width, const int height, const char* title);
-    ~Window();
+    virtual ~Window();
 
     void resizeWindowCallback(GLFWwindow* window, int width, int height);
     void setBackgroundColor(const GLclampf R, const GLclampf G, const GLclampf B, const GLclampf A);

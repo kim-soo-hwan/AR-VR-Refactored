@@ -1,30 +1,36 @@
 #include <window.h>
 #include <mesh.h>
 #include <shader.h>
+#include <texture.h>
 
 int main()
 {
     // OpenGL window
-    Window window(800, 600, "Orange Triangle");
+    Window window(800, 600, "Brick Triangle");
     window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
-    shaderProgram->createShader(GL_VERTEX_SHADER,   "default.vs");
-    shaderProgram->createShader(GL_FRAGMENT_SHADER, "orange.fs");
+    shaderProgram->createShader(GL_VERTEX_SHADER,   "pass_texCoords.vs");
+    shaderProgram->createShader(GL_FRAGMENT_SHADER, "texture.fs");
     shaderProgram->attachAndLinkShaders();
 
     // vertex input
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f, // left  
-         0.5f, -0.5f, 0.0f, // right 
-         0.0f,  0.5f, 0.0f  // top   
+        // positions            // texture coords
+         0.5f, -0.5f, 0.0f,     1.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f,   // bottom left
+         0.0f,  0.5f, 0.0f,     0.5f, 1.0f,   // top
     };
 
     // mesh
     Mesh mesh(3);
-    mesh.setVertexAttributes(vertices, 3);
+    mesh.setVertexAttributes(vertices, 3, 2);
     mesh.setShaderProgram(shaderProgram);
+
+    // Texture
+    Texture texture("wall.jpg");
+    texture.bind();
 
     // render loop
     while (!window.shouldClose())

@@ -1,9 +1,11 @@
 #ifndef __SHADER_H__
 #define __SHADER_H__
 
+// std
 #include <string>
 #include <vector>
-#include <memory>
+#include <memory>   // shared_prt, make_shared
+#include <utility>  // pair, make_pair
 using namespace std;
 
 // GLAD, GLFW
@@ -11,6 +13,9 @@ using namespace std;
 // It includes the required OpenGL headers like GL/gl.h
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+// swan
+#include <texture.h>
 
 class Shader
 {
@@ -52,8 +57,6 @@ public:
     bool createShader(const GLenum shaderType, const string &filePath);
 
     // attach and link shaders
-    bool attachAndLinkShaders(const GLenum shaderType1, const string &filePath1, 
-                              const GLenum shaderType2, const string &filePath2);
     bool attachAndLinkShaders() const;
 
     // use the shader program
@@ -69,10 +72,19 @@ public:
     void set(const string& name, const unsigned int dim, GLsizei count, const GLfloat* value) const;
 
     // set texture
+    void setTexture(const shared_ptr<Texture> &texture);
+    bool addTextureUnit(const string &name, const shared_ptr<Texture> &texture);
 
 protected:
     // shaders
     vector<shared_ptr<Shader>> _shaders;
+
+    // texture
+    shared_ptr<Texture> _texture;
+
+    // texture units
+    GLint MAX_NUM_TEXTURE_UNITS;
+    vector<shared_ptr<Texture>> _textureUnits;
 
     // shader program
     GLuint _id;

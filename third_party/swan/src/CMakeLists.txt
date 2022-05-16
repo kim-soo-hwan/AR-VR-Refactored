@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 project(Swan)
 
 # standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD          17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS        OFF)
 
 # OS
 if(WIN32)
@@ -14,7 +16,7 @@ elseif(UNIX)
 endif()
 
 # source files
-list(APPEND SRCS "window.cpp" "mesh.cpp" "utility.cpp" "shader.cpp")
+list(APPEND SRCS "window.cpp" "mesh.cpp" "utility.cpp" "shader.cpp" "texture.cpp")
 
 # library
 add_library(swan ${SRCS})

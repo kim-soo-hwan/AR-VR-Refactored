@@ -16,7 +16,6 @@ Shader::Shader(const GLenum shaderType)
 Shader::~Shader()
 {
     // delete the shader
-    cout << "Delete Shader: " << _id << endl;
     glDeleteShader(_id);
 }
 
@@ -106,6 +105,9 @@ ShaderProgram::ShaderProgram()
 {
     // create a shader program
     _id = glCreateProgram();
+
+    // maximum number of texture units
+    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &MAX_NUM_TEXTURE_UNITS);
 }
 
 // destructor
@@ -152,85 +154,78 @@ bool ShaderProgram::attachAndLinkShaders() const
         glGetProgramInfoLog(_id, 1024, NULL, infoLog);
         cout << "[ERROR] Program Shader: Link Failed! " << infoLog << endl;
     }
-}
 
-// attach and link shaders
-bool ShaderProgram::attachAndLinkShaders(const GLenum shaderType1, const string &filePath1, 
-                                         const GLenum shaderType2, const string &filePath2) 
-{
-    Shader shader1(shaderType1); shader1.loadAndCompile(filePath1); glAttachShader(_id, shader1.id());
-    Shader shader2(shaderType2); shader2.loadAndCompile(filePath2); glAttachShader(_id, shader2.id());
-
-    cout << "Shader Program: " << _id << endl;
-    cout << "Shader 1: " << shader1.id() << endl;
-    cout << "Shader 2: " << shader2.id() << endl;
-
-    // link the shader program
-    glLinkProgram(_id);
-
-    // check for the link error
-    int success;
-    GLchar infoLog[1024];
-    glGetProgramiv(_id, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetProgramInfoLog(_id, 1024, NULL, infoLog);
-        cout << "[ERROR] Program Shader: Link Failed! " << infoLog << endl;
-    }
+    return true;
 }
 
 // use the shader program
 void ShaderProgram::use() const
 {
+    // use the shader program
     glUseProgram(_id);
+
+    // bind the texture
+    if(_texture) _texture->bind();
+
+    // bind the texture units
+    GLuint numTextureUnits = 0;
+    for(const auto& texture : _textureUnits)
+    {
+        if (texture)
+        {
+            // active texture
+            glActiveTexture(GL_TEXTURE0 + numTextureUnits);
+            texture->bind();
+        }
+    }
 }
 
 // set uniform variables
 void ShaderProgram::set(const string& name, const GLint value) const
 {
-    use();
+    glUseProgram(_id);
     GLuint location = glGetUniformLocation(_id, name.c_str());
     glUniform1i(location, value);
 }
 
 void ShaderProgram::set(const string& name, const GLuint value) const
 {
-    use();
+    glUseProgram(_id);
     GLuint location = glGetUniformLocation(_id, name.c_str());
     glUniform1ui(location, value);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat value) const
 {
-    use();
+    glUseProgram(_id);
     GLuint location = glGetUniformLocation(_id, name.c_str());
     glUniform1f(location, value);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat v0, const GLfloat v1) const
 {
-    use();
+    glUseProgram(_id);
     GLuint location = glGetUniformLocation(_id, name.c_str());
     glUniform2f(location, v0, v1);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat v0, const GLfloat v1, const GLfloat v2) const
 {
-    use();
+    glUseProgram(_id);
     GLuint location = glGetUniformLocation(_id, name.c_str());
     glUniform3f(location, v0, v1, v2);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat v0, const GLfloat v1, const GLfloat v2, const GLfloat v3) const
 {
-    use();
+    glUseProgram(_id);
     GLuint location = glGetUniformLocation(_id, name.c_str());
     glUniform4f(location, v0, v1, v2, v3);
 }
 
 void ShaderProgram::set(const string& name, const unsigned int dim, GLsizei count, const GLfloat* value) const
 {
-    use();
+    glUseProgram(_id);
     GLuint location = glGetUniformLocation(_id, name.c_str());
     switch (dim)
     {
@@ -239,4 +234,25 @@ void ShaderProgram::set(const string& name, const unsigned int dim, GLsizei coun
         case 3: glUniform3fv(location, count, value); break;
         case 4: glUniform4fv(location, count, value); break;
     }
+}
+
+// texture
+void ShaderProgram::setTexture(const shared_ptr<Texture> &texture)
+{
+    _texture = texture;
+}
+
+
+bool ShaderProgram::addTextureUnit(const string &name, const shared_ptr<Texture> &texture)
+{
+    // check the number of texture units
+    if (_textureUnits.size() >= MAX_NUM_TEXTURE_UNITS) return false;
+
+    // set the uniform variable
+    set(name, static_cast<int>(_textureUnits.size()));
+
+    // keep it
+    _textureUnits.push_back(texture);
+
+    return true;
 }

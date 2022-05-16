@@ -1,3 +1,6 @@
+#include <cmath>
+using namespace std;
+
 #include <window.h>
 #include <mesh.h>
 #include <shader.h>
@@ -5,13 +8,13 @@
 int main()
 {
     // OpenGL window
-    Window window(800, 600, "Orange Triangle");
+    Window window(800, 600, "Greenish Triangle");
     window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
-
+    
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
     shaderProgram->createShader(GL_VERTEX_SHADER,   "default.vs");
-    shaderProgram->createShader(GL_FRAGMENT_SHADER, "orange.fs");
+    shaderProgram->createShader(GL_FRAGMENT_SHADER, "uniform_color.fs");
     shaderProgram->attachAndLinkShaders();
 
     // vertex input
@@ -31,6 +34,15 @@ int main()
     {
         // wipe out
         window.wipeOut();
+
+        // get the running time in seconds
+        GLfloat timeValue = glfwGetTime();
+
+        // vary the green color in [0, 1]
+        GLfloat greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+
+        // set the uniform variable
+        shaderProgram->set("ourColor", 0.0f, greenValue, 0.0f, 1.0f);
 
         // draw triangles
         mesh.draw();

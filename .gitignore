@@ -17,10 +17,7 @@ projects/OpenGL_Tutorials/*HW*
 !projects/OpenGL_Tutorials/10_HW_Template
 
 # not yet
-projects/OpenGL_Tutorials/11_Greenish_Triangle__GLSL_Uniform
 projects/OpenGL_Tutorials/12_HW_Triangle_Animation__GLSL_Uniform
-projects/OpenGL_Tutorials/13_Colorful_Triangle__GLSL_layout_location
-projects/OpenGL_Tutorials/15_Brick_Triangle__Texture
 projects/OpenGL_Tutorials/16_Disco_Brick_Triangle__Texture_Color
 projects/OpenGL_Tutorials/18_Smiling_Wooden_Rectangle__Texture_Units
 projects/OpenGL_Tutorials/19_HW_Super_Mario__Texture

@@ -12,8 +12,11 @@ Mesh::Mesh(const int numVertices)
 Mesh::~Mesh()
 {
     // delete buffers
-    for(GLuint VBO : _VBOs)    glDeleteBuffers(1, &VBO);
-    if (_EBO != 0)             glDeleteBuffers(1, &_EBO);
+    for(GLuint VBO : _VBOs)
+    {
+        if (VBO != 0)   glDeleteBuffers(1, &VBO);
+    }
+    if (_EBO != 0)      glDeleteBuffers(1, &_EBO);
 
     // delete the vertex array object
     if (_VAO != 0) glDeleteVertexArrays(1, &_VAO);
@@ -38,9 +41,6 @@ void Mesh::setElementIndices(const GLuint* data, const GLint numIndices)
     // bind the element buffers and and copy the input to GPU
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * _numIndices, data, GL_STATIC_DRAW);
-
-    // unbind the element buffer object
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void Mesh::setPointSize(const GLfloat size)
@@ -50,7 +50,7 @@ void Mesh::setPointSize(const GLfloat size)
     glPointSize(size);
 }
 
-void Mesh::setShaderProgram(const shared_ptr<ShaderProgram> shaderProgram)
+void Mesh::setShaderProgram(const shared_ptr<ShaderProgram> &shaderProgram)
 {
     _shaderProgram = shaderProgram;
 }
