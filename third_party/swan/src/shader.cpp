@@ -3,20 +3,29 @@
 #include <iostream>
 using namespace std;
 
+// GLM
+#include <glm/gtc/type_ptr.hpp>
+
 #include <shader.h>
 
-// constructor
+// constructors
 Shader::Shader(const GLenum shaderType)
 {
     // create a shader
-    _id = glCreateShader(shaderType);
+    id_ = glCreateShader(shaderType);
+}
+
+Shader::Shader(const GLenum shaderType, const string &filePath)
+: Shader(shaderType)
+{
+    loadAndCompile(filePath);
 }
 
 // destructor
 Shader::~Shader()
 {
     // delete the shader
-    glDeleteShader(_id);
+    glDeleteShader(id_);
 }
 
 // load and compile the shader code
@@ -73,18 +82,18 @@ bool Shader::compile(const string &shaderCode)
     const char* shaderSource = shaderCode.c_str();
 
     // set the source code
-    glShaderSource(_id, 1, &shaderSource, NULL);
+    glShaderSource(id_, 1, &shaderSource, NULL);
 
     // compile the source code
-    glCompileShader(_id);
+    glCompileShader(id_);
 
     // check for shader compile errors
     int success;
     GLchar infoLog[1024];
-    glGetShaderiv(_id, GL_COMPILE_STATUS, &success);
+    glGetShaderiv(id_, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-        glGetShaderInfoLog(_id, 1024, NULL, infoLog);
+        glGetShaderInfoLog(id_, 1024, NULL, infoLog);
         cout << "[ERROR] Shader: Compile Failed! " << infoLog << endl;
         cout << shaderCode << endl;
 
@@ -97,24 +106,24 @@ bool Shader::compile(const string &shaderCode)
 // getter
 GLuint Shader::id() const
 {
-    return _id;
+    return id_;
 }
 
 // constructor
 ShaderProgram::ShaderProgram()
 {
     // create a shader program
-    _id = glCreateProgram();
+    id_ = glCreateProgram();
 
     // maximum number of texture units
-    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &MAX_NUM_TEXTURE_UNITS);
+    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &MAX_NUM_TEXTURE_UNITS_);
 }
 
 // destructor
 ShaderProgram::~ShaderProgram()
 {
     // delete the shader program
-    glDeleteProgram (_id);
+    glDeleteProgram (id_);
 }
 
 // create a shader from file
@@ -127,31 +136,37 @@ bool ShaderProgram::createShader(const GLenum shaderType, const string &filePath
     if(!shader->loadAndCompile(filePath)) return false;
 
     // keep it in the list
-    _shaders.push_back(shader);
+    shaders_.push_back(shader);
 
     return true;
+}
+
+void ShaderProgram::addShader(const shared_ptr<Shader> &shader)
+{
+    // keep it in the list
+    shaders_.push_back(shader);
 }
 
 // attach and link shaders
 bool ShaderProgram::attachAndLinkShaders() const
 {
     // for each shader
-    for(auto &shader : _shaders)
+    for(auto &shader : shaders_)
     {
         // attach it to the shader program
-        if(shader) glAttachShader(_id, shader->id());
+        if(shader) glAttachShader(id_, shader->id());
     }
 
     // link the shader program
-    glLinkProgram(_id);
+    glLinkProgram(id_);
 
     // check for the link error
     int success;
     GLchar infoLog[1024];
-    glGetProgramiv(_id, GL_LINK_STATUS, &success);
+    glGetProgramiv(id_, GL_LINK_STATUS, &success);
     if (!success)
     {
-        glGetProgramInfoLog(_id, 1024, NULL, infoLog);
+        glGetProgramInfoLog(id_, 1024, NULL, infoLog);
         cout << "[ERROR] Program Shader: Link Failed! " << infoLog << endl;
     }
 
@@ -162,20 +177,23 @@ bool ShaderProgram::attachAndLinkShaders() const
 void ShaderProgram::use() const
 {
     // use the shader program
-    glUseProgram(_id);
+    glUseProgram(id_);
 
     // bind the texture
-    if(_texture) _texture->bind();
+    if(texture_) texture_->bind();
 
     // bind the texture units
     GLuint numTextureUnits = 0;
-    for(const auto& texture : _textureUnits)
+    for(const auto& texture : textureUnits_)
     {
         if (texture)
         {
             // active texture
             glActiveTexture(GL_TEXTURE0 + numTextureUnits);
             texture->bind();
+
+            // next
+            numTextureUnits++;
         }
     }
 }
@@ -183,50 +201,50 @@ void ShaderProgram::use() const
 // set uniform variables
 void ShaderProgram::set(const string& name, const GLint value) const
 {
-    glUseProgram(_id);
-    GLuint location = glGetUniformLocation(_id, name.c_str());
+    glUseProgram(id_);
+    GLuint location = glGetUniformLocation(id_, name.c_str());
     glUniform1i(location, value);
 }
 
 void ShaderProgram::set(const string& name, const GLuint value) const
 {
-    glUseProgram(_id);
-    GLuint location = glGetUniformLocation(_id, name.c_str());
+    glUseProgram(id_);
+    GLuint location = glGetUniformLocation(id_, name.c_str());
     glUniform1ui(location, value);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat value) const
 {
-    glUseProgram(_id);
-    GLuint location = glGetUniformLocation(_id, name.c_str());
+    glUseProgram(id_);
+    GLuint location = glGetUniformLocation(id_, name.c_str());
     glUniform1f(location, value);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat v0, const GLfloat v1) const
 {
-    glUseProgram(_id);
-    GLuint location = glGetUniformLocation(_id, name.c_str());
+    glUseProgram(id_);
+    GLuint location = glGetUniformLocation(id_, name.c_str());
     glUniform2f(location, v0, v1);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat v0, const GLfloat v1, const GLfloat v2) const
 {
-    glUseProgram(_id);
-    GLuint location = glGetUniformLocation(_id, name.c_str());
+    glUseProgram(id_);
+    GLuint location = glGetUniformLocation(id_, name.c_str());
     glUniform3f(location, v0, v1, v2);
 }
 
 void ShaderProgram::set(const string& name, const GLfloat v0, const GLfloat v1, const GLfloat v2, const GLfloat v3) const
 {
-    glUseProgram(_id);
-    GLuint location = glGetUniformLocation(_id, name.c_str());
+    glUseProgram(id_);
+    GLuint location = glGetUniformLocation(id_, name.c_str());
     glUniform4f(location, v0, v1, v2, v3);
 }
 
 void ShaderProgram::set(const string& name, const unsigned int dim, GLsizei count, const GLfloat* value) const
 {
-    glUseProgram(_id);
-    GLuint location = glGetUniformLocation(_id, name.c_str());
+    glUseProgram(id_);
+    GLuint location = glGetUniformLocation(id_, name.c_str());
     switch (dim)
     {
         case 1: glUniform1fv(location, count, value); break;
@@ -236,23 +254,42 @@ void ShaderProgram::set(const string& name, const unsigned int dim, GLsizei coun
     }
 }
 
+void ShaderProgram::set(const string& name, const glm::mat4& T) const
+{
+    glUseProgram(id_);
+    GLuint loc = glGetUniformLocation(id_, name.c_str());
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(T));
+}
+
 // texture
 void ShaderProgram::setTexture(const shared_ptr<Texture> &texture)
 {
-    _texture = texture;
+    texture_ = texture;
 }
 
+bool ShaderProgram::setTexture(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically)
+{
+    texture_ = make_shared<Texture>();
+    return texture_->loadImage(filePath, internalFormat, format, flipVertically);
+}
 
 bool ShaderProgram::addTextureUnit(const string &name, const shared_ptr<Texture> &texture)
 {
     // check the number of texture units
-    if (_textureUnits.size() >= MAX_NUM_TEXTURE_UNITS) return false;
+    if (textureUnits_.size() >= MAX_NUM_TEXTURE_UNITS_) return false;
 
     // set the uniform variable
-    set(name, static_cast<int>(_textureUnits.size()));
+    set(name, static_cast<int>(textureUnits_.size()));
 
     // keep it
-    _textureUnits.push_back(texture);
+    textureUnits_.push_back(texture);
 
     return true;
+}
+
+bool ShaderProgram::addTextureUnit(const string &name, const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically)
+{
+    shared_ptr<Texture> texture = make_shared<Texture>();
+    if (!texture->loadImage(filePath, internalFormat, format, flipVertically)) return false;
+    return addTextureUnit(name, texture);
 }

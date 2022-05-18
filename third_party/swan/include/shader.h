@@ -14,14 +14,18 @@ using namespace std;
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+// GLM
+#include <glm/glm.hpp>
+
 // swan
 #include <texture.h>
 
 class Shader
 {
 public:
-    // constructor
+    // constructors
     Shader(const GLenum shaderType);
+    Shader(const GLenum shaderType, const string &filePath);
 
     // destructor
     virtual ~Shader();
@@ -40,7 +44,7 @@ protected:
     bool compile(const string &shaderCode);
 
 protected:
-    GLuint _id;     // shader id
+    GLuint id_;     // shader id
 };
 
 
@@ -53,8 +57,9 @@ public:
     // destructor
     virtual ~ShaderProgram();
 
-    // create a shader from file
+    // shader
     bool createShader(const GLenum shaderType, const string &filePath);
+    void addShader(const shared_ptr<Shader> &shader);
 
     // attach and link shaders
     bool attachAndLinkShaders() const;
@@ -70,24 +75,27 @@ public:
     void set(const string& name, const GLfloat v0, const GLfloat v1, const GLfloat v2) const;
     void set(const string& name, const GLfloat v0, const GLfloat v1, const GLfloat v2, const GLfloat v3) const;
     void set(const string& name, const unsigned int dim, GLsizei count, const GLfloat* value) const;
+    void set(const string& name, const glm::mat4& T) const;
 
     // set texture
     void setTexture(const shared_ptr<Texture> &texture);
+    bool setTexture(const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true);
     bool addTextureUnit(const string &name, const shared_ptr<Texture> &texture);
+    bool addTextureUnit(const string &name, const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true);
 
 protected:
     // shaders
-    vector<shared_ptr<Shader>> _shaders;
+    vector<shared_ptr<Shader>> shaders_;
 
     // texture
-    shared_ptr<Texture> _texture;
+    shared_ptr<Texture> texture_;
 
     // texture units
-    GLint MAX_NUM_TEXTURE_UNITS;
-    vector<shared_ptr<Texture>> _textureUnits;
+    GLint MAX_NUM_TEXTURE_UNITS_;
+    vector<shared_ptr<Texture>> textureUnits_;
 
     // shader program
-    GLuint _id;
+    GLuint id_;
 };
 
 #endif // __SHADER_H__

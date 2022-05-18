@@ -1,5 +1,4 @@
-#ifndef __WINDOW_H__
-#define __WINDOW_H__
+#pragma once
 
 // GLAD, GLFW
 // GLAD must be included before GLFW
@@ -11,7 +10,7 @@ class Window
 {
 public:
     Window(const int width, const int height, const char* title);
-    virtual ~Window();
+    ~Window();
 
     void resizeWindowCallback(GLFWwindow* window, int width, int height);
     void setBackgroundColor(const GLclampf R, const GLclampf G, const GLclampf B, const GLclampf A);
@@ -21,18 +20,14 @@ public:
     void processUserInputs();
     int getWidth() const;
     int getHeight() const;
-    void setDepthEnabled(const bool enabled = true);
 
 protected:
-    // window
-    GLFWwindow* window_ = NULL;
-    GLclampf R_ = 1.f;
-    GLclampf G_ = 1.f;
-    GLclampf B_ = 1.f;
-    GLclampf A_ = 1.f;
-    bool depthEnabled_ = false;
-    int width_;
-    int height_;
+    GLFWwindow* m_window = NULL;
+    GLclampf m_R = 1.f;
+    GLclampf m_G = 1.f;
+    GLclampf m_B = 1.f;
+    GLclampf m_A = 1.f;
+    bool m_depthEnabled = false;
+    int m_width;
+    int m_height;
 };
-
-#endif // __WINDOW_H__

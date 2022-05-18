@@ -1,6 +1,3 @@
-#ifndef _TEXTURE_H_
-#define _TEXTURE_H_
-
 #pragma once
 
 #include <string>
@@ -15,33 +12,21 @@ using namespace std;
 class Texture
 {
 public:
-    // constructors
     Texture();
-    Texture(const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true);
+    Texture(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically = false);
+    ~Texture();
 
-    // destructor
-    virtual ~Texture();
-
-    // bind and unbind
     void bind() const;
+    void bind(const GLuint textureUnit) const;
     void unbind() const;
-
-    // image
-    bool loadImage(const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true) const;
+    bool loadImage(const string & filePath, const GLint internalFormat, const GLenum format, const bool flipVertically = false);
     void setImage(const GLint internalformat, const GLsizei width, const GLsizei height, const GLenum format, const unsigned char* data) const;
-
-    // settings
     void generateMipmap() const;
     void setWrapping(const GLint s, const GLint t) const;
     void setFiltering(const GLint min, const GLint mag) const;
-
-    // id
     GLuint getID() const;
 
 protected:
-
-protected:
-    GLuint id_;
+    GLuint m_texture;
 };
 
-#endif // _TEXTURE_H_

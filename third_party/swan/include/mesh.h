@@ -23,7 +23,7 @@ public:
     // destructor
     virtual ~Mesh();
 
-    // setter
+    // vertex attributes
     template<typename T1, typename... Tn>
     void setVertexAttributes(const GLfloat* data, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
     {
@@ -31,35 +31,43 @@ public:
         const GLint numComponentsPerVertex = sumNumComponentsPerVertex(numComponentsPerVertex1, numComponentsPerVertexN...);
 
         // bind the vertex array object
-        glBindVertexArray(_VAO);
+        glBindVertexArray(VAO_);
 
         // create a vertex buffer object
         GLuint VBO;
         glGenBuffers(1, &VBO);
-        _VBOs.push_back(VBO);
+        VBOs_.push_back(VBO);
 
         // bind it to the array buffer target on GPU
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
         // copy the vertex array on host to the array buffer on device (GPU)
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numComponentsPerVertex * _numVertices, data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numComponentsPerVertex * numVertices_, data, GL_STATIC_DRAW);
 
         // set the vertex attribute pointer    
         setVertexAttributePointer(data, numComponentsPerVertex, 0, numComponentsPerVertex1, numComponentsPerVertexN...);
     }
 
+    // element index
     void setElementIndices(const GLuint* data, const GLint numIndices);
-    void setPointSize(const GLfloat size);
+
+    // point size
+    void setPointSize(const GLfloat size) const;
+
+    // shader program
     void setShaderProgram(const shared_ptr<ShaderProgram> &shaderProgram);
 
+    // set draw mode
+    void setDrawMode(const GLenum mode);
+
     // draw
-    void draw(GLenum mode = GL_TRIANGLES);
+    void draw() const;
 
 protected:
     // sum up the numbers of components per vertex using the parameter pack
     // C++11 Parameter Pack, C++17 Unary Fold
     template<typename... T>
-    GLint sumNumComponentsPerVertex(const T... numComponentsPerVertex)
+    GLint sumNumComponentsPerVertex(const T... numComponentsPerVertex) const
     {
         return (... + numComponentsPerVertex);
     }
@@ -71,29 +79,32 @@ protected:
     void setVertexAttributePointer(const GLfloat* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
     {
         // set the vertex attribute pointer
-        glVertexAttribPointer(_numVertexAttributes, numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), reinterpret_cast<void*>(cummulatedNumComponentsPerVertex * sizeof(GLfloat)));
-        glEnableVertexAttribArray(_numVertexAttributes);
+        glVertexAttribPointer(numVertexAttributes_, numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), reinterpret_cast<void*>(cummulatedNumComponentsPerVertex * sizeof(GLfloat)));
+        glEnableVertexAttribArray(numVertexAttributes_);
 
         // next
-        _numVertexAttributes++;
+        numVertexAttributes_++;
         setVertexAttributePointer(data, numComponentsPerVertex, cummulatedNumComponentsPerVertex + numComponentsPerVertex1, numComponentsPerVertexN...);
     }
 
 protected:
+    // draw mode
+    GLenum drawMode_;
+
     // vertex array object
-    GLuint _VAO = 0;               // vertex array object
+    GLuint VAO_ = 0;               // vertex array object
 
     // buffers
-    vector<GLuint> _VBOs;          // vertex buffer object
-    GLuint _EBO = 0;               // element buffer object
+    vector<GLuint> VBOs_;          // vertex buffer object
+    GLuint EBO_ = 0;               // element buffer object
 
     // counts
-    GLint  _numVertices = 0;
-    GLint  _numIndices  = 0;
-    GLuint _numVertexAttributes = 0;
+    GLint  numVertices_ = 0;
+    GLint  numIndices_  = 0;
+    GLuint numVertexAttributes_ = 0;
 
     // shader program
-    shared_ptr<ShaderProgram> _shaderProgram;
+    shared_ptr<ShaderProgram> shaderProgram_;
 };
 
 #endif // __MESH_H__

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(Swan)
+project(Rectangle)
 
 # standard
 set(CMAKE_CXX_STANDARD          17)
@@ -15,14 +15,8 @@ elseif(UNIX)
     endif()
 endif()
 
-# source files
-list(APPEND SRCS "window.cpp" 
-                 "mesh.cpp" 
-                 "utility.cpp" 
-                 "shader.cpp" 
-                 "texture.cpp" 
-                 "model.cpp"
-                 "camera.cpp")
+# executable
+add_executable(06_Rectangle "main_rectangle.cpp")
 
-# library
-add_library(swan ${SRCS})
+# linking
+target_link_libraries(06_Rectangle glfw glad swan)

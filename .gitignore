@@ -13,8 +13,7 @@ build/
 *.bk
 
 # homeworks
-projects/OpenGL_Tutorials/*HW*
-!projects/OpenGL_Tutorials/10_HW_Template
+projects/OpenGL_Tutorials/*Answer*
 
 # not yet
 projects/OpenGL_Tutorials/12_HW_Triangle_Animation__GLSL_Uniform
