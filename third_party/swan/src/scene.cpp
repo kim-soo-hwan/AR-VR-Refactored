@@ -1,10 +1,13 @@
+// std
+#include <string>
+using namespace std;
+
+// swan
 #include <scene.h>
 
 // constructor
 Scene::Scene()
 {
-    // default camera
-    camera_ = make_shared<Camera>();
 }
 
 // destructor
@@ -25,20 +28,39 @@ void Scene::setCamera(const shared_ptr<Camera> &camera)
 }
 
 // draw
-bool Scene::draw() const
+void Scene::draw() const
 {
     // camera
-    if (!camera_) return false;
-
-    // view            matrix: C_T_G
-    // projection      matrix: F_T_C
-    // view-projection matrix: F_T_G = F_T_C * C_T_G
-    glm::mat4 viewProjectionMatrix = camera_->getViewProjectionMatrix();
-
-    // for each model
-    for(const auto& model : models)
+    if (camera_)
     {
-        // model
-        if(model) model->draw(viewProjectionMatrix);
+        // view            matrix: C_T_G
+        // projection      matrix: F_T_C
+        // view-projection matrix: F_T_G = F_T_C * C_T_G
+        glm::mat4 viewProjectionMatrix = camera_->getViewProjectionMatrix();
+
+        // for each model
+        for(const auto& model : models_)
+        {
+            // model
+            if(model) model->draw(viewProjectionMatrix);
+        }
+
+        // axes
+        if(axes_) axes_->draw(viewProjectionMatrix);
     }
+    else
+    {
+        // for each model
+        for(const auto& model : models_)
+        {
+            // model
+            if(model) model->draw();
+        }
+    }
+}
+
+void Scene::setAxes(const float scale)
+{
+    // vertex shader
+    axes_ = make_shared<Axes>(scale);
 }

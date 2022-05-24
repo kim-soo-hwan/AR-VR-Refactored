@@ -11,8 +11,8 @@ int main()
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
-    shaderProgram->createShader(GL_VERTEX_SHADER,   "pass_texCoords.vs");
-    shaderProgram->createShader(GL_FRAGMENT_SHADER, "two_textures.fs");
+    shaderProgram->createShaderFromFile(GL_VERTEX_SHADER,   "pass_texCoords.vs");
+    shaderProgram->createShaderFromFile(GL_FRAGMENT_SHADER, "two_textures.fs");
     shaderProgram->attachAndLinkShaders();
 
     // vertex input
@@ -44,8 +44,8 @@ int main()
     mesh.setShaderProgram(shaderProgram);
 
     // Texture
-    shaderProgram->addTextureUnit("texture1", "container.jpg",   GL_RGB,  GL_RGB,  false);
-    shaderProgram->addTextureUnit("texture2", "awesomeface.png", GL_RGBA, GL_RGBA, true);
+    shaderProgram->addTextureUnit("texture1", "container.jpg");
+    shaderProgram->addTextureUnit("texture2", "awesomeface.png");
 
     // render loop
     while (!window.shouldClose())

@@ -10,8 +10,8 @@ int main()
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
-    shaderProgram->createShader(GL_VERTEX_SHADER,   "pass_color.vs");
-    shaderProgram->createShader(GL_FRAGMENT_SHADER, "default.fs");
+    shaderProgram->createShaderFromFile(GL_VERTEX_SHADER,   "pass_color.vs");
+    shaderProgram->createShaderFromFile(GL_FRAGMENT_SHADER, "default.fs");
     shaderProgram->attachAndLinkShaders();
 
     // vertex input

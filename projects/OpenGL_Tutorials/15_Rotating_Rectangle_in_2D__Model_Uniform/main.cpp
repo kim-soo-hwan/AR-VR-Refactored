@@ -12,13 +12,13 @@ int main()
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
-    shaderProgram->createShader(GL_VERTEX_SHADER,   "transform_pass_texCoords.vs");
-    shaderProgram->createShader(GL_FRAGMENT_SHADER, "two_textures.fs");
+    shaderProgram->createShaderFromFile(GL_VERTEX_SHADER,   "transform_pass_texCoords.vs");
+    shaderProgram->createShaderFromFile(GL_FRAGMENT_SHADER, "two_textures.fs");
     shaderProgram->attachAndLinkShaders();
 
     // texture
-    shaderProgram->addTextureUnit("texture1", "container.jpg",   GL_RGB,  GL_RGB,  false);
-    shaderProgram->addTextureUnit("texture2", "awesomeface.png", GL_RGBA, GL_RGBA, true);
+    shaderProgram->addTextureUnit("texture1", "container.jpg");
+    shaderProgram->addTextureUnit("texture2", "awesomeface.png");
 
     // vertex input: O_p
     GLfloat positions[] = {
@@ -49,7 +49,7 @@ int main()
     rectangle.setShaderProgram(shaderProgram);
 
     // transform
-    rectangle.setModelMatrixName("transform");
+    rectangle.setModelViewProjectionMatrixName("transform");
 
     // render loop
     while (!window.shouldClose())

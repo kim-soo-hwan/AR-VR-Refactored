@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(Transformed_Rectangle_3D)
+project(Translating_Camera)
 
 # standard
 set(CMAKE_CXX_STANDARD          17)
@@ -16,25 +16,25 @@ elseif(UNIX)
 endif()
 
 # executable
-add_executable(17_Transformed_Rectangle_3D "main.cpp")
+add_executable(21_Translating_Camera "main.cpp")
 
 # linking
-target_link_libraries(17_Transformed_Rectangle_3D glfw glad)
+target_link_libraries(21_Translating_Camera glfw glad swan)
 
 # shaders 
 list(APPEND SHADERS "model_view_projection_pass_texCoords.vs" "two_textures.fs")
 add_custom_command(
-    TARGET 17_Transformed_Rectangle_3D POST_BUILD
+    TARGET 21_Translating_Camera POST_BUILD
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${SHADERS} $<TARGET_FILE_DIR:17_Transformed_Rectangle_3D>
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${SHADERS} $<TARGET_FILE_DIR:21_Translating_Camera>
         COMMENT "Copying dependent shaders"
 )
 
 # images
 list(APPEND IMAGES "container.jpg" "awesomeface.png")
 add_custom_command(
-    TARGET 17_Transformed_Rectangle_3D POST_BUILD
+    TARGET 21_Translating_Camera POST_BUILD
         WORKING_DIRECTORY ${DATA_DIR}
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${IMAGES} $<TARGET_FILE_DIR:17_Transformed_Rectangle_3D>
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${IMAGES} $<TARGET_FILE_DIR:21_Translating_Camera>
         COMMENT "Copying dependent images"
 )

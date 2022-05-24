@@ -10,6 +10,7 @@ using namespace std;
 // swan
 #include <model.h>
 #include <camera.h>
+#include <axes.h>
 
 class Scene
 {
@@ -26,8 +27,11 @@ public:
     // set camera
     void setCamera(const shared_ptr<Camera> &camera);
 
+    // set axes
+    void setAxes(const float scale);
+
     // draw
-    bool draw() const;
+    void draw() const;
 
 protected:
     // models
@@ -35,6 +39,9 @@ protected:
 
     // camera
     shared_ptr<Camera> camera_;
+
+    // axes
+    shared_ptr<Axes> axes_;
 
     // transformation name
     string transformationMatrixName_;

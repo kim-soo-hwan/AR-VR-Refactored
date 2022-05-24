@@ -17,7 +17,8 @@ class Texture
 public:
     // constructors
     Texture();
-    Texture(const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true);
+    Texture(const string& filePath, const bool flipVertically = true);
+    Texture(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically = true);
 
     // destructor
     virtual ~Texture();
@@ -27,7 +28,8 @@ public:
     void unbind() const;
 
     // image
-    bool loadImage(const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true) const;
+    bool loadImage(const string& filePath, const bool flipVertically = true) const;
+    bool loadImage(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically = true) const;
     void setImage(const GLint internalformat, const GLsizei width, const GLsizei height, const GLenum format, const unsigned char* data) const;
 
     // settings

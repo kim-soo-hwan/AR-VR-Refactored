@@ -127,13 +127,28 @@ ShaderProgram::~ShaderProgram()
 }
 
 // create a shader from file
-bool ShaderProgram::createShader(const GLenum shaderType, const string &filePath)
+bool ShaderProgram::createShaderFromFile(const GLenum shaderType, const string &filePath)
 {
     // shader
     shared_ptr<Shader> shader = make_shared<Shader>(shaderType);
 
     // load and compile the source code
     if(!shader->loadAndCompile(filePath)) return false;
+
+    // keep it in the list
+    shaders_.push_back(shader);
+
+    return true;
+}
+
+// create a shader from string
+bool ShaderProgram::createShaderFromString(const GLenum shaderType, const string &code)
+{
+    // shader
+    shared_ptr<Shader> shader = make_shared<Shader>(shaderType);
+
+    // compile the source code
+    if(!shader->compile(code)) return false;
 
     // keep it in the list
     shaders_.push_back(shader);
@@ -267,6 +282,12 @@ void ShaderProgram::setTexture(const shared_ptr<Texture> &texture)
     texture_ = texture;
 }
 
+bool ShaderProgram::setTexture(const string& filePath, const bool flipVertically)
+{
+    texture_ = make_shared<Texture>();
+    return texture_->loadImage(filePath, flipVertically);
+}
+
 bool ShaderProgram::setTexture(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically)
 {
     texture_ = make_shared<Texture>();
@@ -285,6 +306,13 @@ bool ShaderProgram::addTextureUnit(const string &name, const shared_ptr<Texture>
     textureUnits_.push_back(texture);
 
     return true;
+}
+
+bool ShaderProgram::addTextureUnit(const string &name, const string& filePath, const bool flipVertically)
+{
+    shared_ptr<Texture> texture = make_shared<Texture>();
+    if (!texture->loadImage(filePath, flipVertically)) return false;
+    return addTextureUnit(name, texture);
 }
 
 bool ShaderProgram::addTextureUnit(const string &name, const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically)

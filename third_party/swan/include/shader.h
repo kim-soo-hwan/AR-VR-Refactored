@@ -33,15 +33,15 @@ public:
     // load and compile the shader code
     bool loadAndCompile(const string &filePath);
 
+    // compile the shader code
+    bool compile(const string &shaderCode);
+
     // getter
     GLuint id() const;
 
 protected:
     // load the shader code from file
     bool load(const string &filePath, string &shaderCode) const;
-
-    // compile the shader code
-    bool compile(const string &shaderCode);
 
 protected:
     GLuint id_;     // shader id
@@ -58,7 +58,8 @@ public:
     virtual ~ShaderProgram();
 
     // shader
-    bool createShader(const GLenum shaderType, const string &filePath);
+    bool createShaderFromFile(const GLenum shaderType, const string &filePath);
+    bool createShaderFromString(const GLenum shaderType, const string &code);
     void addShader(const shared_ptr<Shader> &shader);
 
     // attach and link shaders
@@ -79,9 +80,11 @@ public:
 
     // set texture
     void setTexture(const shared_ptr<Texture> &texture);
-    bool setTexture(const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true);
+    bool setTexture(const string& filePath, const bool flipVertically = true);
+    bool setTexture(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically = true);
     bool addTextureUnit(const string &name, const shared_ptr<Texture> &texture);
-    bool addTextureUnit(const string &name, const string& filePath, const GLint internalFormat = GL_RGB, const GLenum format = GL_RGB, const bool flipVertically = true);
+    bool addTextureUnit(const string &name, const string& filePath, const bool flipVertically = true);
+    bool addTextureUnit(const string &name, const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically = true);
 
 protected:
     // shaders

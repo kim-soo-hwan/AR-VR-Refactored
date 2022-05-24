@@ -46,3 +46,16 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/12_Disco_Brick_T
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/13_Smiling_Wooden_Rectangle__Texture_Units")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/14_Transformed_Rectangle_in_2D__Model")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/15_Rotating_Rectangle_in_2D__Model_Uniform")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/16_Transformed_Rectangle_in_3D__Model_View_Projection")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/17_Rotating_Cube_in_3D_without_Z_Buffer__3D_Cube")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/18_Rotating_Cube_in_3D_with_GL_DEPTH_TEST")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/19_Many_Cubes_in_3D__Many_Models")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/20_Rotating_Camera__View_lookAt")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/21_Translating_Camera__Keyboard_Input")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/22_Moving_Camera__Mouse_Input")
+
+# Pointcloud Visualization
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/01_PCL_CloudViewer")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/02_OpenGL_CloudViewer")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/03_OpenGL_CloudViewer_Colormap_Jet")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_OpenGL_RGB_LiDAR")

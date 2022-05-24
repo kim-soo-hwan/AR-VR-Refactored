@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.12)
+project(Rotating_Cube_3D_wo_Z_Buffer)
+
+# standard
+set(CMAKE_CXX_STANDARD          17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS        OFF)
+
+# OS
+if(WIN32)
+    add_definitions(-D__WINDOWS__)
+elseif(UNIX)
+    if(APPLE)
+        add_definitions(-D__APPLE__)
+    endif()
+endif()
+
+# executable
+add_executable(17_Rotating_Cube_3D_wo_Z_Buffer "main.cpp")
+
+# linking
+target_link_libraries(17_Rotating_Cube_3D_wo_Z_Buffer glfw glad swan)
+
+# shaders 
+list(APPEND SHADERS "model_view_projection_pass_texCoords.vs" "two_textures.fs")
+add_custom_command(
+    TARGET 17_Rotating_Cube_3D_wo_Z_Buffer POST_BUILD
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${SHADERS} $<TARGET_FILE_DIR:17_Rotating_Cube_3D_wo_Z_Buffer>
+        COMMENT "Copying dependent shaders"
+)
+
+# images
+list(APPEND IMAGES "container.jpg" "awesomeface.png")
+add_custom_command(
+    TARGET 17_Rotating_Cube_3D_wo_Z_Buffer POST_BUILD
+        WORKING_DIRECTORY ${DATA_DIR}
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${IMAGES} $<TARGET_FILE_DIR:17_Rotating_Cube_3D_wo_Z_Buffer>
+        COMMENT "Copying dependent images"
+)

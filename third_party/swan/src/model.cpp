@@ -17,11 +17,6 @@ Model::~Model()
 }
 
 // transform
-void Model::setModelViewProjectionMatrixName(const string& name)
-{
-    modelViewProjectionMatrixName_ = name;
-}
-
 void Model::scale(const float scaleX, const float scaleY, const float scaleZ)   // scale
 {
     // scale: T' = T_s * T
@@ -57,6 +52,11 @@ void Model::transform(const float angleInDegrees,                              /
 void Model::resetModelMatrix()
 {
     model_ = glm::mat4(1.f);
+}
+
+void Model::setModelViewProjectionMatrixName(const string& name)
+{
+    modelViewProjectionMatrixName_ = name;
 }
 
 // getter

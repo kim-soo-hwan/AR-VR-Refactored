@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem> // C++17 filesystem::path::extension
 using namespace std;
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -15,8 +16,14 @@ Texture::Texture()
     setFiltering(GL_LINEAR, GL_LINEAR);
 }
 
+Texture::Texture(const string& filePath, const bool flipVertically)
+: Texture()
+{
+    loadImage(filePath, flipVertically);
+}
+
 Texture::Texture(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically)
-    : Texture()
+: Texture()
 {
     loadImage(filePath, internalFormat, format, flipVertically);
 }
@@ -34,6 +41,18 @@ void Texture::bind() const
 void Texture::unbind() const
 {
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+bool Texture::loadImage(const string& filePath, const bool flipVertically) const
+{
+    // file extension
+    const string extension = filesystem::path(filePath).extension().string();
+
+    // for each file type
+    if (extension.compare(".jpg") == 0) return loadImage(filePath, GL_RGB,   GL_RGB,  flipVertically);
+    if (extension.compare(".png") == 0) return loadImage(filePath, GL_RGBA,  GL_RGBA, flipVertically);
+
+    return false;
 }
 
 bool Texture::loadImage(const string& filePath, const GLint internalFormat, const GLenum format, const bool flipVertically) const

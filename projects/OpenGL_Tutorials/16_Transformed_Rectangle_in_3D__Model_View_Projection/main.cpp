@@ -14,13 +14,13 @@ int main()
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
-    shaderProgram->createShader(GL_VERTEX_SHADER,   "model_view_projection_pass_texCoords.vs");
-    shaderProgram->createShader(GL_FRAGMENT_SHADER, "two_textures.fs");
+    shaderProgram->createShaderFromFile(GL_VERTEX_SHADER,   "model_view_projection_pass_texCoords.vs");
+    shaderProgram->createShaderFromFile(GL_FRAGMENT_SHADER, "two_textures.fs");
     shaderProgram->attachAndLinkShaders();
 
     // texture
-    shaderProgram->addTextureUnit("texture1", "container.jpg",   GL_RGB,  GL_RGB,  false);
-    shaderProgram->addTextureUnit("texture2", "awesomeface.png", GL_RGBA, GL_RGBA, true);
+    shaderProgram->addTextureUnit("texture1", "container.jpg");
+    shaderProgram->addTextureUnit("texture2", "awesomeface.png");
 
     // vertex input: O_p
     GLfloat positions[] = {
@@ -50,12 +50,11 @@ int main()
     rectangle->setElementIndices(indices, 6);
     rectangle->setShaderProgram(shaderProgram);
     rectangle->rotate(-55.f, 1.f, 0.f, 0.f); // model: tilt down by 55 degrees
-    rectangle->setTransformationMatrixName("model_view_projection");
+    rectangle->setModelViewProjectionMatrixName("model_view_projection");
 
     // camera
-    Camera camera(45.f, window.getRatio(), 0.1f, 100.f);
-    camera.translate(0.f, 0.f, -3.f); // view: move the camera backward
-    camera.addModel(rectangle);
+    shared_ptr<Camera> camera = make_shared<Camera>(45.f, window.getRatio(), 0.1f, 100.f);
+    camera->translate(0.f, 0.f, -3.f); // view: move the camera backward
 
     // scene
     Scene scene;
@@ -68,7 +67,7 @@ int main()
         // wipe out
         window.wipeOut();
 
-        // capture
+        // draw
         scene.draw();
 
         // display

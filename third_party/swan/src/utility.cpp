@@ -1,5 +1,10 @@
+// std
 #include <iostream>
 using namespace std;
+
+// GLM
+#include <glm/ext/scalar_relational.hpp> // epsilonEqual
+#include <glm/gtc/epsilon.hpp>
 
 #include <utility.h>
 
@@ -8,7 +13,7 @@ const char* vertexShaderSource = "#version 330 core\n"
                                  "layout (location = 0) in vec3 vertexPosition;\n"
                                  "void main()\n"
                                  "{\n"
-                                 "   gl_Position = vec4(vertexPosition.x, vertexPosition.y, vertexPosition.z, 1.0);\n"
+                                 "   gl_Position = vec4(vertexPosition, 1.f);\n"
                                  "}\0";
 
 // fragment shader
@@ -16,7 +21,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
                                    "out vec4 fragmentColor;\n"
                                    "void main()\n"
                                    "{\n"
-                                   "   fragmentColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                   "   fragmentColor = vec4(1.f, 0.5f, 0.2f, 1.f);\n"
                                    "}\n\0";
 
 GLuint generateAndUseDefaultShaderProgram()

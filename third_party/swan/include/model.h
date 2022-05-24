@@ -37,7 +37,7 @@ public:
     glm::mat4 getModelMatrix() const;
 
     // draw
-    void draw(const glm::mat4 &viewProjectionMatrix) const;
+    void draw(const glm::mat4 &viewProjectionMatrix = glm::mat4(1.f)) const;
 
 protected:
     // model-view-projection matrix: uniform variable name
