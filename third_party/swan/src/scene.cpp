@@ -34,8 +34,8 @@ void Scene::draw() const
     if (camera_)
     {
         // view            matrix: C_T_G
-        // projection      matrix: F_T_C
-        // view-projection matrix: F_T_G = F_T_C * C_T_G
+        // projection      matrix: NDC_T_C
+        // view-projection matrix: F_T_G = NDC_T_C * C_T_G
         glm::mat4 viewProjectionMatrix = camera_->getViewProjectionMatrix();
 
         // for each model
@@ -59,8 +59,7 @@ void Scene::draw() const
     }
 }
 
-void Scene::setAxes(const float scale)
+void Scene::setAxes(const shared_ptr<Axes> &axes)
 {
-    // vertex shader
-    axes_ = make_shared<Axes>(scale);
+    axes_ = axes;
 }

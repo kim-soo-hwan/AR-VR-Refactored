@@ -49,7 +49,9 @@ int main()
     rectangle->setVertexAttributes(texCoords, 2);
     rectangle->setElementIndices(indices, 6);
     rectangle->setShaderProgram(shaderProgram);
-    rectangle->rotate(-55.f, 1.f, 0.f, 0.f); // model: tilt down by 55 degrees
+    rectangle->translate(0.f, 1.f, 0.f); // model: translation
+    rectangle->rotate(glm::radians(-55.f), 1.f, 0.f, 0.f); // model: tilt down by 55 degrees
+    rectangle->transform(glm::radians(-55.f), 1.f, 0.f, 0.f, 0.f, 1.f, 0.f); // model: tilt down by 55 degrees
     rectangle->setModelViewProjectionMatrixName("model_view_projection");
 
     // camera

@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // output variables
 out vec4 fragmentColor;  

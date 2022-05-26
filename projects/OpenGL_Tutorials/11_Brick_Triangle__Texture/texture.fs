@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // input variables from the vertex shader
 in vec2 texCoords;

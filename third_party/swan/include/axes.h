@@ -14,8 +14,17 @@ public:
     // destructor
     virtual ~Axes();
 
+    // transform
+    void scale(const float scaleX, const float scaleY, const float scaleZ); // scale
+    void rotate(const float angle,                                          // rotation angle in radian
+                const float axisX, const float axisY, const float axisZ);   // roation axis
+    void translate(const float tX, const float tY, const float tZ);         // translation vector
+    void transform(const float angle,                                       // rotation angle in radian
+                   const float axisX, const float axisY, const float axisZ, // roation axis
+                   const float tX, const float tY, const float tZ);         // translation vector
+    void resetModelMatrix();
+
     // setter
-    void setScale(const float scale);
     void setLineWidth(const float lineWidth);
 
     // draw

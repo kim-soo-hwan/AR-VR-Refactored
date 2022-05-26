@@ -58,7 +58,7 @@ int main()
     rectangle.translate(0.5f, -0.5f, 0.0f);
 
     // rotate by 90 degrees about the z-axis (unit vector)
-    rectangle.rotate(90.0f, 0.0f, 0.0f, 1.0f);
+    rectangle.rotate(glm::radians(90.f), 0.0f, 0.0f, 1.0f);
 
     // render loop
     while (!window.shouldClose())

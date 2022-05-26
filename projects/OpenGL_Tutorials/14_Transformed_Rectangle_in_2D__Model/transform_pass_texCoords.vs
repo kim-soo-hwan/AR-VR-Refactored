@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // input variables
 layout (location = 0) in vec3 vertexPosition;   // position attribute: C_p

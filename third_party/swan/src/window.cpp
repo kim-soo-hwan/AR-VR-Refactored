@@ -1,10 +1,13 @@
 // std
 #include <iostream>
 #include <functional>
+#include <algorithm>    // min, max
 using namespace std;
+using std::cout;
 
 // GLM
 #include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>    // half_pi()
 
 // swan
 #include <window.h>
@@ -89,17 +92,18 @@ void Window::mouseMovementCallback(GLFWwindow* window, double posX, double posY)
     // left mouse button: pan/tilt
     if (leftMouseButtonPressed_)
     {
-        // yaw and pitch
-        float panAngleInDegrees  = MOUSE_ROTATION_SENSITIVITY * offsetX; // pan: turn left
-        float tiltAngleInDegrees = MOUSE_ROTATION_SENSITIVITY * offsetY; // tilt: turn up
+        // pan and tilt angles in radian
+        float panAngle  = MOUSE_ROTATION_SENSITIVITY * offsetX; // pan: turn left
+        float tiltAngle = MOUSE_ROTATION_SENSITIVITY * offsetY; // tilt: turn up
 
-        // limit
-        if (tiltAngleInDegrees >  89.f) tiltAngleInDegrees =  89.f; // max
-        if (tiltAngleInDegrees < -89.f) tiltAngleInDegrees = -89.f; // min
+        // limit: pan/tilt in [-pi/2, pi/2]
+        const float HALF_PI = glm::half_pi<float>();
+        panAngle  = std::min(std::max(panAngle,  -HALF_PI), HALF_PI);
+        tiltAngle = std::min(std::max(tiltAngle, -HALF_PI), HALF_PI);
 
         // convert degrees to radians
-        camera_->pan(panAngleInDegrees);
-        camera_->tilt(tiltAngleInDegrees);
+        camera_->pan(panAngle);
+        camera_->tilt(tiltAngle);
     }
 
     // right mouse button: move right/left or up/down
@@ -113,17 +117,18 @@ void Window::mouseMovementCallback(GLFWwindow* window, double posX, double posY)
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
 void Window::mouseScrollCallback(GLFWwindow* window, double offsetX, double offsetY) const
 {
-    // 
+    // move forward and backward
     if (camera_) camera_->moveForward(offsetY);
 }
 
 Window::Window(const int width, const int height, const char* title)
 : width_(width),
-  height_(height)
+  height_(height),
+  title_(title)
 {
     // GLFW: initialize and configure (OpenGL 3.3 core)
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef __APPLE__
@@ -193,6 +198,31 @@ void Window::setBackgroundColor(const GLclampf R, const GLclampf G, const GLclam
 bool Window::shouldClose() const
 {
     if (window_ == NULL) return true;
+
+    // frame per second
+    static double previousTime = glfwGetTime();
+    static int frameCount = 0;
+
+    // for every 100 frames
+    if (frameCount > 100)
+    {
+        // elapsed time
+        const double currentTime = glfwGetTime();
+        const double elapsedTime = currentTime - previousTime;
+        const double fps = (double)frameCount / elapsedTime;
+
+        // you can't display faster than the refresh rate of the monitor
+        // (around 60Hz or 60FPS)
+        char fpsMessage[128];
+        sprintf(fpsMessage, " @ %.2f FPS (Max 60 FPS)", fps);
+        const string title = title_ + fpsMessage;
+        glfwSetWindowTitle(window_, title.c_str());
+
+        // next
+        previousTime = currentTime;
+        frameCount = 0;
+    }
+    frameCount++;
 
     return glfwWindowShouldClose(window_);
 }

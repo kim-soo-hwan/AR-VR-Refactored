@@ -58,4 +58,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/projects/OpenGL_Tutorials/22_Moving_Camera
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/01_PCL_CloudViewer")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/02_OpenGL_CloudViewer")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/03_OpenGL_CloudViewer_Colormap_Jet")
-add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_OpenGL_RGB_LiDAR")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_Render_to_Texture__Vertex_Shader")
+#add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_Compute_Shader")
+# add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/05_Render_to_Texture")
+# add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/06_OpenGL_RGB_LiDAR")

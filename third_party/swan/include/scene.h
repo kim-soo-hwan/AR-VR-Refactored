@@ -28,7 +28,7 @@ public:
     void setCamera(const shared_ptr<Camera> &camera);
 
     // set axes
-    void setAxes(const float scale);
+    void setAxes(const shared_ptr<Axes> &axes);
 
     // draw
     void draw() const;

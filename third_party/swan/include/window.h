@@ -2,6 +2,7 @@
 #define __WINDOW_H__
 
 // std
+#include <string>
 #include <memory>
 using namespace std;
 
@@ -50,6 +51,7 @@ public:
 protected:
     // window
     GLFWwindow* window_ = NULL;
+    string title_;
 
     // size
     int width_;
@@ -71,7 +73,7 @@ protected:
     bool leftMouseButtonPressed_ = false;
     bool rightMouseButtonPressed_ = false;
 
-    const float MOUSE_ROTATION_SENSITIVITY = 0.1f;
+    const float MOUSE_ROTATION_SENSITIVITY = 0.01f;
     const float MOUSE_TRANSLATION_SENSITIVITY = 0.01f;
 };
 

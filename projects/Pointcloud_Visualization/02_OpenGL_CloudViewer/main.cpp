@@ -27,9 +27,7 @@ int main()
         PCL_ERROR("Couldn't read file 000000001.pcd \n");
         return (-1);
     }
-    cout << "Loaded " << cloud->width << " x " << cloud->height
-         << " data points from test_pcd.pcd with the following fields: "
-         << endl;
+    cout << "Loaded " << cloud->width << " x " << cloud->height << " data points from test_pcd.pcd with the following fields: " << endl;
 
     // visualization
 
@@ -55,17 +53,19 @@ int main()
 
     // camera
     shared_ptr<Camera> camera = make_shared<Camera>(45.f, window.getRatio(), 0.1f, 10000.f);
-    camera->setViewMatrix(0.905129, 0.423663, 0.0352294, 
-                         -0.0927226, 0.115865, 0.988919,
-                          0.414886, -0.898373, 0.144155, 
-                          -0.120035, 0.9758, -69.8173);
+    camera->setViewMatrix(0.888122, 0.458937, 0.0248475, -1.11125e-05, 
+                         -0.187117, 0.311666, 0.931587, -1.13249e-05,
+                          0.419795, -0.832011, 0.362673, -64.0001);
     window.setCamera(camera);
 
     // scene
     Scene scene;
     scene.addModel(pointCloud);
     scene.setCamera(camera);
-    scene.setAxes(10.f);
+
+    // axes
+    shared_ptr<Axes> axes = make_shared<Axes>(10.f);
+    scene.setAxes(axes);
 
     // render loop
     while (!window.shouldClose())

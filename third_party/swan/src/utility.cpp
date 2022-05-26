@@ -9,7 +9,7 @@ using namespace std;
 #include <utility.h>
 
 // vertex shader
-const char* vertexShaderSource = "#version 330 core\n"
+const char* vertexShaderSource = "#version 430 core\n"
                                  "layout (location = 0) in vec3 vertexPosition;\n"
                                  "void main()\n"
                                  "{\n"
@@ -17,7 +17,7 @@ const char* vertexShaderSource = "#version 330 core\n"
                                  "}\0";
 
 // fragment shader
-const char* fragmentShaderSource = "#version 330 core\n"
+const char* fragmentShaderSource = "#version 430 core\n"
                                    "out vec4 fragmentColor;\n"
                                    "void main()\n"
                                    "{\n"

@@ -67,7 +67,7 @@ int main()
         rectangle.translate(0.5f, -0.5f, 0.0f);
 
         // rotate by time degrees about the z-axis (unit vector)
-        rectangle.rotate(50.f * glfwGetTime(), 0.0f, 0.0f, 1.0f);
+        rectangle.rotate(glfwGetTime(), 0.0f, 0.0f, 1.0f);
 
         // draw        
         rectangle.draw();

@@ -96,7 +96,7 @@ int main()
 
         // model
         cube->resetModelMatrix();
-        cube->rotate(50.f * glfwGetTime(), 0.5f, 1.f, 0.f);
+        cube->rotate(glfwGetTime(), 0.5f, 1.f, 0.f);
 
         // draw
         scene.draw();

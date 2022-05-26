@@ -103,7 +103,7 @@ int main()
 
         // transform
         cube->translate(cubePositions[i][0], cubePositions[i][1], cubePositions[i][2]);
-        cube->rotate(i * 20.f, 1.0f, 0.3f, 0.5f);
+        cube->rotate(i * glm::radians(20.f), 1.0f, 0.3f, 0.5f);
         cube->setModelViewProjectionMatrixName("model_view_projection");
 
         // add

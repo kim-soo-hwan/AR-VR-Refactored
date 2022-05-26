@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // input variables
 in vec3 ourColor;
