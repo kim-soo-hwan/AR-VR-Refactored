@@ -26,7 +26,8 @@ public:
 
     // setter
     void setBackgroundColor(const GLclampf R, const GLclampf G, const GLclampf B, const GLclampf A);
-    void setDepthEnabled(const bool enabled = true);
+    void enable(const GLenum capability);
+    void disable(const GLenum capability);
 
     // infinite loop
     bool shouldClose() const;

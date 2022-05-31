@@ -12,7 +12,7 @@ uniform mat4 model_view_projection_3; // capture camera 3
 uniform mat4 model_view_projection_4; // capture camera 4
 
 // output variables to the fragment shader
-out int  imageNum;
+flat out int  imageNum;
 out vec2 texCoords;
 
 bool texture_coord(mat4 mvp)
@@ -36,7 +36,15 @@ void main()
     // F_p = NDC_T_C * C_T_G * G_T_O * O_p
     gl_Position = model_view_projection * vertexPosition;
 
-    // for each camera
+    // point size
+    //        gl_Position.z        : [  -1,  1]
+    //        gl_Position.z + 2.f  : [   1,  3]
+    //  3.f / (gl_Position.z + 2.f): [   1,  3]
+    // 30.f / (gl_Position.z + 2.f): [  10, 30]
+    gl_PointSize = 30.f / (gl_Position.z + 2.f);
+
+    // for each camera\
+    imageNum = -1; // default value
     if (texture_coord(model_view_projection_0)) { imageNum = 0; return; }
     if (texture_coord(model_view_projection_1)) { imageNum = 1; return; }
     if (texture_coord(model_view_projection_2)) { imageNum = 2; return; }

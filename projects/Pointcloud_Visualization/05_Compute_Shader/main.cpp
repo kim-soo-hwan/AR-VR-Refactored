@@ -23,7 +23,7 @@ int main()
     // OpenGL window
     Window window(800, 600, "Pointcloud Visualization");
     window.setBackgroundColor(0.f, 0.f, 0.f, 1.0f);
-    window.setDepthEnabled();
+    window.enable(GL_DEPTH_TEST);
         
     // create the image texture
     int tex_w = 512, tex_h = 512; // dimensions of the image

@@ -304,11 +304,16 @@ float Window::getRatio() const
     return (float)width_/(float)height_;
 }
 
-void Window::setDepthEnabled(const bool enabled)
+void Window::enable(const GLenum capability)
 {
-    depthEnabled_ = enabled;
-    if (depthEnabled_) glEnable(GL_DEPTH_TEST);
-    else               glDisable(GL_DEPTH_TEST);
+    if (capability == GL_DEPTH_TEST) depthEnabled_ = true;
+    glEnable(capability);
+}
+
+void Window::disable(const GLenum capability)
+{
+    if (capability == GL_DEPTH_TEST) depthEnabled_ = false;
+    glDisable(capability);
 }
 
 // camera

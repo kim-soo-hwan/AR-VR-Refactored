@@ -41,7 +41,7 @@ add_custom_command(
 )
 
 # shaders
-list(APPEND SHADERS "model_view_projection_colormap_jet.vs"
+list(APPEND SHADERS "model_view_projection_pointSize_colormap_jet.vs"
                     "vertex_color.fs")
 add_custom_command(
     TARGET 93_OpenGL_CloudViewer_Colormap_Jet POST_BUILD

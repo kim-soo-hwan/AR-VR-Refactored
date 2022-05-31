@@ -34,11 +34,12 @@ int main()
     // OpenGL window
     Window window(800, 600, "Pointcloud Visualization");
     window.setBackgroundColor(0.f, 0.f, 0.f, 1.0f);
-    window.setDepthEnabled();
+    window.enable(GL_DEPTH_TEST);
+    window.enable(GL_PROGRAM_POINT_SIZE); // for gl_PointSize in vertex shader
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
-    shaderProgram->createShaderFromFile(GL_VERTEX_SHADER,   "model_view_projection.vs");
+    shaderProgram->createShaderFromFile(GL_VERTEX_SHADER,   "model_view_projection_pointSize.vs");
     shaderProgram->createShaderFromFile(GL_FRAGMENT_SHADER, "white.fs");
     shaderProgram->attachAndLinkShaders();
 
@@ -53,19 +54,16 @@ int main()
 
     // camera
     shared_ptr<Camera> camera = make_shared<Camera>(45.f, window.getRatio(), 0.1f, 10000.f);
-    camera->setViewMatrix(0.888122, 0.458937, 0.0248475, -1.11125e-05, 
-                         -0.187117, 0.311666, 0.931587, -1.13249e-05,
-                          0.419795, -0.832011, 0.362673, -64.0001);
+    camera->setTransformationMatrix(0.888122, 0.458937, 0.0248475, -1.11125e-05, 
+                                   -0.187117, 0.311666, 0.931587, -1.13249e-05,
+                                    0.419795, -0.832011, 0.362673, -64.0001);
     window.setCamera(camera);
 
     // scene
     Scene scene;
     scene.addModel(pointCloud);
     scene.setCamera(camera);
-
-    // axes
-    shared_ptr<Axes> axes = make_shared<Axes>(10.f);
-    scene.setAxes(axes);
+    scene.setGlobalAxes(10.f);
 
     // render loop
     while (!window.shouldClose())

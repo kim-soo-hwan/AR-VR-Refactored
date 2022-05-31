@@ -1,8 +1,8 @@
 #include <axes.h>
 
 // constructor
-Axes::Axes(const float scale)
-: scale_(scale)
+Axes::Axes()
+: model_(T_)
 {
     // vertex shader
     const string vertexShaderSource = "#version 430 core\n"
@@ -68,60 +68,25 @@ Axes::Axes(const float scale)
         axis_[i]->setShaderProgram(shaderProgram_[i]);
         axis_[i]->setModelViewProjectionMatrixName("model_view_projection");
     }
-
-    // scale
-    this->scale(scale_, scale_, scale_);
 }
 
+Axes::Axes(const float scale)
+: Axes()
+{
+    // scale
+    scale_L(scale, scale, scale);
+}
+
+Axes::Axes(const glm::mat4 &T)
+: Axes()
+{
+    // transform
+    setTransformationMatrix(T);
+}
+
+// destructor
 Axes::~Axes()
 {
-}
-
-// transform
-void Axes::scale(const float scaleX, const float scaleY, const float scaleZ)   // scale
-{
-    axis_[0]->scale(scaleX, 1.f, 1.f);  // x-axis
-    axis_[1]->scale(1.f, scaleY, 1.f);  // y-axis
-    axis_[2]->scale(1.f, 1.f, scaleZ);  // z-axis
-}
-
-void Axes::rotate(const float angle,                                           // rotation angle in radian
-                  const float axisX, const float axisY, const float axisZ)     // rotation axis
-{
-    // for each axis
-    for(int i = 0; i < 3; i++)
-    {
-        axis_[i]->rotate(angle, axisX, axisY, axisZ);
-    }  
-}
-
-void Axes::translate(const float tX, const float tY, const float tZ)           // translation vector
-{
-    // for each axis
-    for(int i = 0; i < 3; i++)
-    {
-        axis_[i]->translate(tX, tY, tZ);
-    } 
-}
-
-void Axes::transform(const float angle,                                        // rotation angle in radian
-                      const float axisX, const float axisY, const float axisZ,  // roation axis
-                      const float tX, const float tY, const float tZ)           // translation vector
-{
-    // for each axis
-    for(int i = 0; i < 3; i++)
-    {
-        axis_[i]->transform(angle, axisX, axisY, axisZ, tX, tY, tZ);
-    } 
-}
-
-void Axes::resetModelMatrix()
-{
-    // for each axis
-    for(int i = 0; i < 3; i++)
-    {
-        axis_[i]->resetModelMatrix();
-    } 
 }
 
 // setter
@@ -136,9 +101,12 @@ void Axes::draw(const glm::mat4 &viewProjectionMatrix) const
     // line width
     glLineWidth(lineWidth_);
 
+    // model-view-projection matrix: F_T_O = NDC_T_C * C_T_G * G_T_O
+    glm::mat4 modelViewProjectionMatrix = viewProjectionMatrix * model_;
+
     // for each axis
     for(int i = 0; i < 3; i++)
     {
-        axis_[i]->draw(viewProjectionMatrix);
+        axis_[i]->draw(modelViewProjectionMatrix);
     }  
 }

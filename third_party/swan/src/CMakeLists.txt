@@ -24,7 +24,8 @@ list(APPEND SRCS "window.cpp"
                  "model.cpp"
                  "scene.cpp"
                  "camera.cpp"
-                 "axes.cpp")
+                 "axes.cpp"
+                 "rigid.cpp")
 
 # library
 add_library(swan ${SRCS})

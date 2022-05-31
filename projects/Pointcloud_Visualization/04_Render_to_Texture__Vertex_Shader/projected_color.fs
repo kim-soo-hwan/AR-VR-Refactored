@@ -1,7 +1,7 @@
 #version 430 core
 
 // input variables from the vertex shader
-in int  imageNum;
+flat in int  imageNum;
 in vec2 texCoords;
 
 // output variables
@@ -27,12 +27,22 @@ void main()
     // discard;
 
     // for each camera, colorize the point
-    if (imageNum == 0) { fragmentColor = vec4(1.f, 0.f, 0.f, 1.f); return; } // R
-    if (imageNum == 1) { fragmentColor = vec4(0.f, 1.f, 0.f, 1.f); return; } // G
-    if (imageNum == 2) { fragmentColor = vec4(0.f, 0.f, 1.f, 1.f); return; } // B
-    if (imageNum == 3) { fragmentColor = vec4(1.f, 1.f, 0.f, 1.f); return; } // Y
-    if (imageNum == 4) { fragmentColor = vec4(1.f, 0.f, 1.f, 1.f); return; } // M
+    switch(imageNum)
+    {
+        case 0:  fragmentColor = vec4(1.f, 0.f, 0.f, 1.f); break; // R
+        case 1:  fragmentColor = vec4(0.f, 1.f, 0.f, 1.f); break; // G
+        case 2:  fragmentColor = vec4(0.f, 0.f, 1.f, 1.f); break; // B
+        case 3:  fragmentColor = vec4(1.f, 1.f, 0.f, 1.f); break; // Y
+        case 4:  fragmentColor = vec4(1.f, 0.f, 1.f, 1.f); break; // M
+        default: fragmentColor = vec4(1.f, 1.f, 1.f, 1.f);        // W
+    }
 
-   fragmentColor = vec4(1.f, 1.f, 1.f, 1.f); // W
-   return;
+    // if (imageNum == 0) { fragmentColor = vec4(1.f, 0.f, 0.f, 1.f); return; } // R
+    // if (imageNum == 1) { fragmentColor = vec4(0.f, 1.f, 0.f, 1.f); return; } // G
+    // if (imageNum == 2) { fragmentColor = vec4(0.f, 0.f, 1.f, 1.f); return; } // B
+    // if (imageNum == 3) { fragmentColor = vec4(1.f, 1.f, 0.f, 1.f); return; } // Y
+    // if (imageNum == 4) { fragmentColor = vec4(1.f, 0.f, 1.f, 1.f); return; } // M
+
+    // fragmentColor = vec4(1.f, 1.f, 1.f, 1.f); // W
+    // return;
 }

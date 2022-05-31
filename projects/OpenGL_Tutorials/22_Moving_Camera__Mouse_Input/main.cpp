@@ -11,7 +11,7 @@ int main()
     // OpenGL window
     Window window(800, 600, "Many Cube in 3D");
     window.setBackgroundColor(0.2f, 0.3f, 0.3f, 1.0f);
-    window.setDepthEnabled();
+    window.enable(GL_DEPTH_TEST);
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram = make_shared<ShaderProgram>();
@@ -96,7 +96,7 @@ int main()
 
     // camera
     shared_ptr<Camera> camera = make_shared<Camera>(45.f, window.getRatio(), 0.1f, 100.f);
-    camera->translate(0.f, 0.f, -3.f); // view: move the camera backward
+    camera->translate_L(0.f, 0.f, -3.f); // view: move the camera backward
     window.setCamera(camera);
 
     // scene
@@ -114,9 +114,9 @@ int main()
         for (unsigned int i = 0; i < 10; i++)
         {
             // model: G_T_O
-            cube->resetModelMatrix();
-            cube->translate(cubePositions[i][0], cubePositions[i][1], cubePositions[i][2]);
-            cube->rotate(i * glm::radians(20.f), 1.0f, 0.3f, 0.5f);
+            cube->resetTransformationMatrix();
+            cube->translate_R(cubePositions[i][0], cubePositions[i][1], cubePositions[i][2]);
+            cube->rotate_R(i * glm::radians(20.f), 1.0f, 0.3f, 0.5f);
 
             // draw triangles
             scene.draw();

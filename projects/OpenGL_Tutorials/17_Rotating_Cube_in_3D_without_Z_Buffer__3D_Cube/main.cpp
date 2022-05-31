@@ -81,7 +81,7 @@ int main()
 
     // camera
     shared_ptr<Camera> camera = make_shared<Camera>(45.f, window.getRatio(), 0.1f, 100.f);
-    camera->translate(0.f, 0.f, -3.f); // view: move the camera backward
+    camera->translate_L(0.f, 0.f, -3.f); // view: move the camera backward
 
     // scene
     Scene scene;
@@ -95,8 +95,8 @@ int main()
         window.wipeOut();
 
         // model
-        cube->resetModelMatrix();
-        cube->rotate(glfwGetTime(), 0.5f, 1.f, 0.f);
+        cube->resetTransformationMatrix();
+        cube->rotate_R(glfwGetTime(), 0.5f, 1.f, 0.f);
 
         // draw
         scene.draw();

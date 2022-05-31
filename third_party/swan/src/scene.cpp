@@ -46,7 +46,11 @@ void Scene::draw() const
         }
 
         // axes
-        if(axes_) axes_->draw(viewProjectionMatrix);
+        if(globalAxes_) globalAxes_->draw(viewProjectionMatrix);
+        for(const auto& axes : axes_)
+        {
+            if(axes) axes->draw(viewProjectionMatrix);
+        }
     }
     else
     {
@@ -59,7 +63,17 @@ void Scene::draw() const
     }
 }
 
-void Scene::setAxes(const shared_ptr<Axes> &axes)
+void Scene::setGlobalAxes(const float scale)
 {
-    axes_ = axes;
+    globalAxes_ = make_shared<Axes>(scale);
+}
+
+void Scene::setGlobalAxes(const shared_ptr<Axes> &axes)
+{
+    globalAxes_ = axes;
+}
+
+void Scene::addAxes(const shared_ptr<Axes> &axes)
+{
+    axes_.push_back(axes);
 }

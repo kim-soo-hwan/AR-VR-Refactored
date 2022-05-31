@@ -13,5 +13,9 @@ void main()
     gl_Position = model_view_projection * vertexPosition;
 
     // point size
-    gl_PointSize = 10.f * (gl_Position.z + 1.f);
+    //        gl_Position.z        : [  -1,  1]
+    //        gl_Position.z + 2.f  : [   1,  3]
+    //  3.f / (gl_Position.z + 2.f): [   1,  3]
+    // 30.f / (gl_Position.z + 2.f): [  10, 30]
+    gl_PointSize = 30.f / (gl_Position.z + 2.f);
 } 

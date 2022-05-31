@@ -52,13 +52,13 @@ int main()
     rectangle.setModelViewProjectionMatrixName("transform");
 
     // scale down by one half
-    rectangle.scale(0.5f, 0.5f, 0.5f);
+    rectangle.scale_R(0.5f, 0.5f, 0.5f);
 
     // translate
-    rectangle.translate(0.5f, -0.5f, 0.0f);
+    rectangle.translate_R(0.5f, -0.5f, 0.0f);
 
     // rotate by 90 degrees about the z-axis (unit vector)
-    rectangle.rotate(glm::radians(90.f), 0.0f, 0.0f, 1.0f);
+    rectangle.rotate_R(glm::radians(90.f), 0.0f, 0.0f, 1.0f);
 
     // render loop
     while (!window.shouldClose())

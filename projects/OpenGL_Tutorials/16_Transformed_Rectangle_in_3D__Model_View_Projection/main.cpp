@@ -49,14 +49,14 @@ int main()
     rectangle->setVertexAttributes(texCoords, 2);
     rectangle->setElementIndices(indices, 6);
     rectangle->setShaderProgram(shaderProgram);
-    rectangle->translate(0.f, 1.f, 0.f); // model: translation
-    rectangle->rotate(glm::radians(-55.f), 1.f, 0.f, 0.f); // model: tilt down by 55 degrees
-    rectangle->transform(glm::radians(-55.f), 1.f, 0.f, 0.f, 0.f, 1.f, 0.f); // model: tilt down by 55 degrees
+    rectangle->translate_R(0.f, 1.f, 0.f); // model: translation
+    rectangle->rotate_R(glm::radians(-55.f), 1.f, 0.f, 0.f); // model: tilt down by 55 degrees
+  //rectangle->transform_R(glm::radians(-55.f), 1.f, 0.f, 0.f, 0.f, 1.f, 0.f); // model: tilt down by 55 degrees
     rectangle->setModelViewProjectionMatrixName("model_view_projection");
 
     // camera
     shared_ptr<Camera> camera = make_shared<Camera>(45.f, window.getRatio(), 0.1f, 100.f);
-    camera->translate(0.f, 0.f, -3.f); // view: move the camera backward
+    camera->translate_L(0.f, 0.f, -3.f); // view: move the camera backward
 
     // scene
     Scene scene;

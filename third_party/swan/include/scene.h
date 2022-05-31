@@ -28,7 +28,9 @@ public:
     void setCamera(const shared_ptr<Camera> &camera);
 
     // set axes
-    void setAxes(const shared_ptr<Axes> &axes);
+    void setGlobalAxes(const float scale);
+    void setGlobalAxes(const shared_ptr<Axes> &axes);
+    void addAxes(const shared_ptr<Axes> &axes);
 
     // draw
     void draw() const;
@@ -37,11 +39,12 @@ protected:
     // models
     vector<shared_ptr<Model>> models_;
 
+    // axes
+    shared_ptr<Axes> globalAxes_;
+    vector<shared_ptr<Axes>> axes_;
+
     // camera
     shared_ptr<Camera> camera_;
-
-    // axes
-    shared_ptr<Axes> axes_;
 
     // transformation name
     string transformationMatrixName_;

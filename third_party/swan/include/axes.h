@@ -4,36 +4,36 @@
 // swan
 #include <model.h>
 #include <shader.h>
+#include <rigid.h>
 
-class Axes
+class Axes : public ScalableBody
 {
 public:
     // constructor
-    Axes(const float scale = 1.f);
+    Axes();
+    Axes(const float scale);
+    Axes(const glm::mat4 &T);
 
     // destructor
     virtual ~Axes();
-
-    // transform
-    void scale(const float scaleX, const float scaleY, const float scaleZ); // scale
-    void rotate(const float angle,                                          // rotation angle in radian
-                const float axisX, const float axisY, const float axisZ);   // roation axis
-    void translate(const float tX, const float tY, const float tZ);         // translation vector
-    void transform(const float angle,                                       // rotation angle in radian
-                   const float axisX, const float axisY, const float axisZ, // roation axis
-                   const float tX, const float tY, const float tZ);         // translation vector
-    void resetModelMatrix();
 
     // setter
     void setLineWidth(const float lineWidth);
 
     // draw
     void draw(const glm::mat4 &viewProjectionMatrix = glm::mat4(1.f)) const;
-    
+
+    // inherited setter and getter
+    //   setTransformationMatrix():   set (model) matrix
+    // resetTransformationMatrix(): reset (model) matrix
+    //   getTransformationMatrix():   get (model) matrix
+
 protected:
-    // scale
-    float scale_ = 1.f;
+    // line width
     float lineWidth_ = 5.f;
+
+    // inherited (model) matrix
+    glm::mat4 &model_; // G_T_O
 
     // axes
     shared_ptr<Model> axis_[3];

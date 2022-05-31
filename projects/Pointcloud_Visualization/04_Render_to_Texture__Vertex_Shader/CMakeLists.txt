@@ -41,11 +41,11 @@ add_custom_command(
 )
 
 # shaders
-list(APPEND SHADERS "multiple_model_view_projections.vs"
+list(APPEND SHADERS "multiple_model_view_projections_pointSize.vs"
                     "projected_color.fs")
 add_custom_command(
     TARGET 94_Render_to_Texture__Vertex_Shader POST_BUILD
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND "${CMAKE_COMMAND}" -E copy ${SHADERS} $<TARGET_FILE_DIR:94_Render_to_Texture__Vertex_Shader>
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${SHADERS} $<TARGET_FILE_DIR:94_Render_to_Texture__Vertex_Shader>
         COMMENT "Copying dependent shaders"
 )

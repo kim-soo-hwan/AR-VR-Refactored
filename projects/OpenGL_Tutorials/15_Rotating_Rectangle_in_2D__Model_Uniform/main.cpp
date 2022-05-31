@@ -58,16 +58,16 @@ int main()
         window.wipeOut();
 
         // reset
-        rectangle.resetModelMatrix();
+        rectangle.resetTransformationMatrix();
 
         // scale down by one half
-        rectangle.scale(0.5f, 0.5f, 0.5f);
+        rectangle.scale_R(0.5f, 0.5f, 0.5f);
 
         // translate
-        rectangle.translate(0.5f, -0.5f, 0.0f);
+        rectangle.translate_R(0.5f, -0.5f, 0.0f);
 
         // rotate by time degrees about the z-axis (unit vector)
-        rectangle.rotate(glfwGetTime(), 0.0f, 0.0f, 1.0f);
+        rectangle.rotate_R(glfwGetTime(), 0.0f, 0.0f, 1.0f);
 
         // draw        
         rectangle.draw();

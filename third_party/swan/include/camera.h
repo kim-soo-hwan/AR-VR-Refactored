@@ -4,7 +4,10 @@
 // GLM
 #include <glm/glm.hpp>
 
-class Camera
+// swan
+#include <rigid.h>
+
+class Camera : public RigidBody
 {
 public:
     // constructor
@@ -23,20 +26,10 @@ public:
                              const float zn, const float zf,    // near/far plane
                              const float w,  const float h);    // width/height of the image
 
-    // view: transform
-    void rotate(const float angle,                                          // rotation angle in radian
-                const float axisX, const float axisY, const float axisZ);   // rotation axis
-    void rotate(const float roll, const float pitch, const float yaw);      // euler angles
-    void translate(const float tX, const float tY, const float tZ);         // translation vector
-    void transform(const float roll, const float pitch, const float yaw,    // euler angles
-                   const float tX, const float tY, const float tZ);         // translation vector
-    void transform(const float angle,                                       // rotation angle in radian
-                   const float axisX, const float axisY, const float axisZ, // rotation axis
-                   const float tX, const float tY, const float tZ);         // translation vector
-    void setViewMatrix(const float r11, const float r12, const float r13, const float tX,   // 1st row
-                       const float r21, const float r22, const float r23, const float tY,   // 2nd row
-                       const float r31, const float r32, const float r33, const float tZ);  // 3rd row
-    void resetViewMatrix();
+    // inherited setter and getter
+    //   setTransformationMatrix():   set (view) matrix
+    // resetTransformationMatrix(): reset (view) matrix
+    //   getTransformationMatrix():   get (view) matrix
 
     // view: loot at
     void lookAt(const float eyeX,    const float eyeY,    const float eyeZ,     // camera position
@@ -64,8 +57,11 @@ protected:
     void moveInGlobalCoords(const glm::vec3 &G_t);
 
 protected:
-    glm::mat4 projection_;  // camera intrinsics: NDC_T_C
-    glm::mat4 view_;        // camera extrinsics: C_T_G
+    // projection matrix: camera intrinsices
+    glm::mat4 projection_;  // NDC_T_C
+
+    // inherited (view) matrix: camera extrinsices
+    glm::mat4 &view_;       // C_T_G
 };
 
 #endif // _CAMERA_H_

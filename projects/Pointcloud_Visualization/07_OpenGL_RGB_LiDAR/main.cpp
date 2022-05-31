@@ -37,7 +37,7 @@ int main()
     // OpenGL window
     Window window(800, 600, "Pointcloud Visualization");
     window.setBackgroundColor(0.f, 0.f, 0.f, 1.0f);
-    window.setDepthEnabled();
+    window.enable(GL_DEPTH_TEST);
 
     // shader program
     shared_ptr<ShaderProgram> shaderProgram_white = make_shared<ShaderProgram>();

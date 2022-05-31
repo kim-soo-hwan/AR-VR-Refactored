@@ -41,7 +41,7 @@ add_custom_command(
 )
 
 # shaders
-list(APPEND SHADERS "model_view_projection.vs" 
+list(APPEND SHADERS "model_view_projection_pointSize.vs" 
                     "white.fs")
 
 add_custom_command(
