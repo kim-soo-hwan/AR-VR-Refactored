@@ -19,6 +19,10 @@ include_directories(${CMAKE_SOURCE_DIR}/third_party/stb)
 # GLM
 include_directories(${CMAKE_SOURCE_DIR}/third_party/glm-0.9.9.8)
 
+# Intel RealSense
+include_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0/include)
+add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0)
+
 # Swan
 include_directories(${CMAKE_SOURCE_DIR}/third_party/swan/include)
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/swan/src)

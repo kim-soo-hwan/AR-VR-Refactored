@@ -29,9 +29,9 @@ $ git submodule update --recursive
 1. Windows <br>
     > [CMake Download](https://cmake.org/download/)
 2. macOS<br>
-    > `brew install cmake`
+    > `$ brew install cmake`
 3. Linux<br>
-    > `sudo apt install cmake`
+    > `$ sudo apt install cmake`
 
 <br>
 
@@ -51,6 +51,46 @@ $ git submodule update --recursive
 3. CMake: Configure
 4. CMake: Select a Variant
 5. CMake: Build
+
+<br>
+
+## 5. Package Manager 설치
+
+1. Windows<br>
+    > ```
+    > PS> git clone https://github.com/Microsoft/vcpkg.git
+    > PS> cd vcpkg
+    > PS> .\bootstrap-vcpkg.sh
+    > PS> .\vcpkg integrate install
+    > ```
+2. macOS<br>
+    > `$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+3. Linux<br>
+    > `$ apt -V`
+
+## 6. PCL 설치
+
+1. Windows<br>
+    > `PS> .\vcpkg install pcl`
+2. macOS<br>
+    > `$ brew install pcl`
+3. Linux<br>
+    > `$ sudo apt install libpcl-dev`
+
+ref) https://pointclouds.org/downloads/
+
+<br>
+
+## 7. Intel RealSense 설치
+
+1. Windows<br>
+    > `PS> .\vcpkg install realsense2`
+2. macOS<br>
+    > `$ brew install librealsense`
+3. Linux<br>
+    > `$ sudo apt install libpcl-dev`
+
+ref) https://github.com/IntelRealSense/librealsense
 
 <br>
 

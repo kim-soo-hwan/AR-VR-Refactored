@@ -27,8 +27,6 @@ public:
     void setTransformationMatrix(const float r11, const float r12, const float r13, const float tX,     // 1st row
                                  const float r21, const float r22, const float r23, const float tY,     // 2nd row
                                  const float r31, const float r32, const float r33, const float tZ);    // 3rd row
-    void setTransformationMatrixforMobileTech(const float yaw, const float pitch, const float roll,     // Euler angles
-                                              const float tX,  const float tY,    const float tZ);      // translation vector
     void resetTransformationMatrix();
 
     // getter

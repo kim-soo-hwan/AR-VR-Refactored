@@ -276,6 +276,13 @@ void ShaderProgram::set(const string& name, const glm::mat4& T) const
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(T));
 }
 
+void ShaderProgram::set(const string& name, const glm::mat3x4& T) const
+{
+    glUseProgram(id_);
+    GLuint loc = glGetUniformLocation(id_, name.c_str());
+    glUniformMatrix3x4fv(loc, 1, GL_FALSE, glm::value_ptr(T));
+}
+
 // texture
 void ShaderProgram::setTexture(const shared_ptr<Texture> &texture)
 {

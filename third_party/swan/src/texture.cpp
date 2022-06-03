@@ -11,9 +11,9 @@ Texture::Texture()
 {
     glGenTextures(1, &id_);
 
-    // default setting
-    setWrapping(GL_REPEAT, GL_REPEAT);
-    setFiltering(GL_LINEAR, GL_LINEAR);
+    // default setting: GL_REPEAT, GL_NEAREST
+    //setWrapping(GL_REPEAT, GL_REPEAT);
+    //setFiltering(GL_LINEAR, GL_LINEAR);
 }
 
 Texture::Texture(const string& filePath, const bool flipVertically)

@@ -26,6 +26,37 @@ Camera::~Camera()
 {
 }
 
+// view
+void Camera::setViewMatrixForMobilTech(const float yaw, const float pitch, const float roll,     // Euler angles
+                                       const float tX,  const float tY,    const float tZ)       // translation vector
+{
+    // reset
+    resetTransformationMatrix();
+
+    // C_p = R * Rx(roll) * Ry(pitch) * Rz(yaw) * (L_p - t)
+    //
+    // [C_p] = [R  0][Rx(roll)  0][Ry(pitch)   0][Rz(yaw)  0][L_p - t]
+    // [ 1 ] = [0  1][   0      1][   0        1][   0     1][   1   ]
+    //
+    // [C_p] = [R  0][Rx(roll)  0][Ry(pitch)   0][Rz(yaw)  0][I  -t][L_p]
+    // [ 1 ] = [0  1][   0      1][   0        1][   0     1][0   1][ 1 ]
+    //
+    // C_p = C_T_L * L_P
+
+    // transform
+    translate_L(-tX, -tY, -tZ);
+    rotateAboutZ_L(yaw);
+    rotateAboutY_L(pitch);
+    rotateAboutX_L(roll);
+
+    // R
+    glm::mat4 Tr(0.f);
+    Tr[0][2] = -1.f;   Tr[1][0] =  1.f;   Tr[2][1] = -1.f;   Tr[3][3] = 1.f;
+
+    // T' = T(R) * T
+    T_ = Tr * T_;
+}
+
 // projection
 void Camera::setProjectionMatrix(const float fx, const float fy,    // focal length
                                  const float cx, const float cy,    // optical center

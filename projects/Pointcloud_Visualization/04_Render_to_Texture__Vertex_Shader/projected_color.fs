@@ -26,7 +26,19 @@ void main()
     // // else, do not draw the point
     // discard;
 
-    // for each camera, colorize the point
+    // for each camera, colorize the point by the image
+    switch(imageNum)
+    {
+        case 0:  fragmentColor = texture(image_0, texCoords); break;
+        case 1:  fragmentColor = texture(image_1, texCoords); break;
+        case 2:  fragmentColor = texture(image_2, texCoords); break;
+        case 3:  fragmentColor = texture(image_3, texCoords); break;
+        case 4:  fragmentColor = texture(image_4, texCoords); break;
+        default: fragmentColor = vec4(1.f, 1.f, 1.f, 1.f);        // W
+    }
+    //discard;
+
+    // // for each camera, colorize the point by the camer color
     // switch(imageNum)
     // {
     //     case 0:  fragmentColor = vec4(1.f, 0.f, 0.f, 1.f); break; // R
@@ -43,6 +55,6 @@ void main()
     // if (imageNum == 3) { fragmentColor = vec4(1.f, 1.f, 0.f, 1.f); return; } // Y
     // if (imageNum == 4) { fragmentColor = vec4(1.f, 0.f, 1.f, 1.f); return; } // M
 
-    fragmentColor = vec4(1.f, 1.f, 1.f, 1.f); // W
+    // fragmentColor = vec4(1.f, 1.f, 1.f, 1.f); // W
     // return;
 }

@@ -20,6 +20,10 @@ public:
     // destructor
     virtual ~Camera();
 
+    // view
+    void setViewMatrixForMobilTech(const float yaw, const float pitch, const float roll,     // Euler angles
+                                              const float tX,  const float tY,    const float tZ);      // translation vector
+
     // projection
     void setProjectionMatrix(const float fx, const float fy,    // focal length
                              const float cx, const float cy,    // optical center

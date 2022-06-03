@@ -1,5 +1,6 @@
 // std
 #include <cmath> // sin, cos
+#include <iostream>
 using namespace std;
 
 // GLM
@@ -51,28 +52,6 @@ void RigidBody::setTransformationMatrix(const float r11, const float r12, const 
     T_[0][1] = r21;   T_[1][1] = r22;   T_[2][1] = r23,   T_[3][1] = tY;
     T_[0][2] = r31;   T_[1][2] = r32;   T_[2][2] = r33,   T_[3][2] = tZ;
     T_[0][3] = 0.f;   T_[1][3] = 0.f;   T_[2][3] = 0.f,   T_[3][3] = 1.f;
-}
-
-void RigidBody::setTransformationMatrixforMobileTech(const float yaw, const float pitch, const float roll,     // Euler angles
-                                                     const float tX,  const float tY,    const float tZ)       // translation vector
-{
-    // reset
-    resetTransformationMatrix();
-
-    // transform
-    translate_L(-tX, -tY, -tZ);
-    rotateAboutZ_L(yaw);
-    rotateAboutY_L(pitch);
-    rotateAboutX_L(roll);
-
-    // R
-    glm::mat4 Tr(1.f);
-    Tr[0][0] =  0.f;   Tr[1][0] =  1.f;   Tr[2][0] =  0.f;
-    Tr[0][1] =  0.f;   Tr[1][1] =  0.f;   Tr[2][1] = -1.f;
-    Tr[0][2] = -1.f;   Tr[1][2] =  0.f;   Tr[2][2] =  0.f;
-
-    // T' = T(R) * T
-    T_ = Tr * T_;
 }
 
 void RigidBody::resetTransformationMatrix()

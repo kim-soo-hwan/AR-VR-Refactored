@@ -77,6 +77,7 @@ public:
     void set(const string& name, const GLfloat v0, const GLfloat v1, const GLfloat v2, const GLfloat v3) const;
     void set(const string& name, const unsigned int dim, GLsizei count, const GLfloat* value) const;
     void set(const string& name, const glm::mat4& T) const;
+    void set(const string& name, const glm::mat3x4& T) const;
 
     // set texture
     void setTexture(const shared_ptr<Texture> &texture);
