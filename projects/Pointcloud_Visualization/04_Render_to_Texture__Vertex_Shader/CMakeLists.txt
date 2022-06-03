@@ -31,7 +31,8 @@ add_executable(94_Render_to_Texture__Vertex_Shader "main.cpp")
 target_link_libraries(94_Render_to_Texture__Vertex_Shader ${PCL_LIBRARIES} glfw glad swan)
 
 # point cloud data
-list(APPEND PCD "000000001.pcd" "0.jpg" "1.jpg" "2.jpg" "3.jpg" "4.jpg")
+#list(APPEND PCD "000000001.pcd" "0.jpg" "1.jpg" "2.jpg" "3.jpg" "4.jpg")
+list(APPEND PCD "000000.pcd" "0.jpg" "1.jpg" "2.jpg" "3.jpg" "4.jpg")
 
 add_custom_command(
     TARGET 94_Render_to_Texture__Vertex_Shader POST_BUILD

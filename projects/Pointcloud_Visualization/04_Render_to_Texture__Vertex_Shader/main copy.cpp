@@ -22,9 +22,9 @@ int main()
 {
     // PCL
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    if (pcl::io::loadPCDFile<pcl::PointXYZ>("000000.pcd", *cloud) == -1) //* load the file
+    if (pcl::io::loadPCDFile<pcl::PointXYZ>("000000001.pcd", *cloud) == -1) //* load the file
     {
-        PCL_ERROR("Couldn't read file 000000.pcd \n");
+        PCL_ERROR("Couldn't read file 000000001.pcd \n");
         return (-1);
     }
     cout << "Loaded " << cloud->width << " x " << cloud->height << " data points from test_pcd.pcd with the following fields: " << endl;
@@ -48,40 +48,35 @@ int main()
     Camera capturingCamera;
 
     // camera 0
-    // capturingCamera.setTransformationMatrixforMobileTech(-0.010250,0.010125,0.000500, -0.084300,-0.061250,-0.129400);
-    capturingCamera.resetTransformationMatrix();
-    capturingCamera.translate_L(-3.f, 0.f, 0.f);
+    capturingCamera.setTransformationMatrixforMobileTech(4.694164,0.258938,0.008250, 0.000000,-0.206387,-0.150950);
     shared_ptr<Axes> axes_00 = make_shared<Axes>(capturingCamera.getTransformationMatrix()); // G_T_C
     capturingCamera.inverseTransformationMatrix(); // C_T_G: view matrix
     capturingCamera.setProjectionMatrix(1066.199336,1066.132909,999.624838,600.302905, 0.1f, 10000.f, 1920.f, 1200.f);
     shaderProgram->set("model_view_projection_0", capturingCamera.getViewProjectionMatrix());
 
     // camera 1
-    // capturingCamera.setTransformationMatrixforMobileTech(-5.028656,-0.012226,-0.001438, -0.022350,0.150200,-0.129400);
-    capturingCamera.resetTransformationMatrix();
-    capturingCamera.rotateAboutZ_L(glm::radians(90.f));
-    capturingCamera.translate_L(0.f, -3.f, 0.f);
+    capturingCamera.setTransformationMatrixforMobileTech(-2.843782,0.077074,0.242250, 0.092252,-0.139361,-0.150950);
     shared_ptr<Axes> axes_01 = make_shared<Axes>(capturingCamera.getTransformationMatrix()); // G_T_C
     capturingCamera.inverseTransformationMatrix(); // C_T_G: view matrix
     capturingCamera.setProjectionMatrix(1062.135424,1063.059400,992.146065,628.093140, 0.1f, 10000.f, 1920.f, 1200.f);
     shaderProgram->set("model_view_projection_1", capturingCamera.getViewProjectionMatrix());
 
     // camera 2
-    capturingCamera.setTransformationMatrixforMobileTech(-3.771093,-0.001000,-0.003625, 0.140700,0.059600,-0.129400);
+    capturingCamera.setTransformationMatrixforMobileTech(2.210281,-0.209859,0.147563, 0.057015,0.030912,-0.150950);
     shared_ptr<Axes> axes_02 = make_shared<Axes>(capturingCamera.getTransformationMatrix()); // G_T_C
     capturingCamera.inverseTransformationMatrix(); // C_T_G: view matrix
     capturingCamera.setProjectionMatrix(1066.215109,1066.475016,992.281252,608.039672, 0.1f, 10000.f, 1920.f, 1200.f);
     shaderProgram->set("model_view_projection_2", capturingCamera.getViewProjectionMatrix());
 
     // camera 3
-    capturingCamera.setTransformationMatrixforMobileTech(-2.530940,-0.011250,0.006375, 0.108200,-0.049600,-0.129400);
+    capturingCamera.setTransformationMatrixforMobileTech(-5.367000,-0.209039,-0.154023, -0.057015,0.030912,-0.150950);
     shared_ptr<Axes> axes_03 = make_shared<Axes>(capturingCamera.getTransformationMatrix()); // G_T_C
     capturingCamera.inverseTransformationMatrix(); // C_T_G: view matrix
     capturingCamera.setProjectionMatrix(1060.315354,1061.005324,945.352784,617.652102, 0.1f, 10000.f, 1920.f, 1200.f);
     shaderProgram->set("model_view_projection_3", capturingCamera.getViewProjectionMatrix());
 
     // camera 4
-    capturingCamera.setTransformationMatrixforMobileTech(-7.551531,-0.001187,-0.002250, -0.026100,-0.080200,-0.129400);
+    capturingCamera.setTransformationMatrixforMobileTech(-0.321687,0.084313,-0.241000, -0.092252,-0.139361,-0.150950);
     shared_ptr<Axes> axes_04 = make_shared<Axes>(capturingCamera.getTransformationMatrix()); // G_T_C
     capturingCamera.inverseTransformationMatrix(); // C_T_G: view matrix
     capturingCamera.setProjectionMatrix(1068.730240,1068.356202,979.756477,624.191779, 0.1f, 10000.f, 1920.f, 1200.f);
@@ -117,9 +112,9 @@ int main()
     scene.setGlobalAxes(10.f);
     scene.addAxes(axes_00);
     scene.addAxes(axes_01);
-    // scene.addAxes(axes_02);
-    // scene.addAxes(axes_03);
-    // scene.addAxes(axes_04);
+    scene.addAxes(axes_02);
+    scene.addAxes(axes_03);
+    scene.addAxes(axes_04);
 
     // render loop
     while (!window.shouldClose())

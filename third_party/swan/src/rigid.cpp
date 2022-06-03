@@ -56,17 +56,20 @@ void RigidBody::setTransformationMatrix(const float r11, const float r12, const 
 void RigidBody::setTransformationMatrixforMobileTech(const float yaw, const float pitch, const float roll,     // Euler angles
                                                      const float tX,  const float tY,    const float tZ)       // translation vector
 {
+    // reset
+    resetTransformationMatrix();
+
+    // transform
     translate_L(-tX, -tY, -tZ);
     rotateAboutZ_L(yaw);
     rotateAboutY_L(pitch);
     rotateAboutX_L(roll);
 
     // R
-    glm::mat4 Tr(0.f);
-    Tr[0][2] = -1.f;
-    Tr[1][0] =  1.f;
-    Tr[2][1] = -1.f;
-    Tr[3][3] =  1.f;
+    glm::mat4 Tr(1.f);
+    Tr[0][0] =  0.f;   Tr[1][0] =  1.f;   Tr[2][0] =  0.f;
+    Tr[0][1] =  0.f;   Tr[1][1] =  0.f;   Tr[2][1] = -1.f;
+    Tr[0][2] = -1.f;   Tr[1][2] =  0.f;   Tr[2][2] =  0.f;
 
     // T' = T(R) * T
     T_ = Tr * T_;
@@ -75,6 +78,7 @@ void RigidBody::setTransformationMatrixforMobileTech(const float yaw, const floa
 void RigidBody::resetTransformationMatrix()
 {
     T_ = glm::identity<glm::mat4>();
+    //T_ = glm::mat4(1.f);
 }
 
 // getter

@@ -15,6 +15,9 @@
 9. all/any (gl/vector_relational.hpp)
    
 10. draw camera
+
+11. axes: 하나를 공유해서 다른 transformation으로 그리기
+    
 Software Rasterization of 2 Billion Points in Real-Time, 2022
 Rendering Point Clouds with Compute Shaders and Vertex Order Optimization, 2021
 https://github.com/m-schuetz/compute_rasterizer
