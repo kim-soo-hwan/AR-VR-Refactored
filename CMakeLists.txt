@@ -19,6 +19,13 @@ include_directories(${CMAKE_SOURCE_DIR}/third_party/stb)
 # GLM
 include_directories(${CMAKE_SOURCE_DIR}/third_party/glm-0.9.9.8)
 
+# PCL
+if(WIN32)
+elseif(UNIX)
+    if(APPLE)
+        set(CMAKE_PREFIX_PATH "/opt/homebrew/Cellar/qt@5/5.15.3")
+    endif()
+endif()
 # vcpkg
 #if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
 #  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
@@ -27,7 +34,8 @@ include_directories(${CMAKE_SOURCE_DIR}/third_party/glm-0.9.9.8)
 #set(CMAKE_TOOLCHAIN_FILE "D:\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake")
 
 # Intel RealSense
-#nclude_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0/include)
+#include_directories(../ ../../third-party/tclap/include ../../examples)
+include_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense/examples)
 #add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0)
 
 # Swan

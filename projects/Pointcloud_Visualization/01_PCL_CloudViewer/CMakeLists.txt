@@ -41,11 +41,15 @@ add_executable(91_PCL_CloudViewer "main.cpp")
 target_link_libraries(91_PCL_CloudViewer ${PCL_LIBRARIES})
 
 # point cloud data
-list(APPEND PCD "000000001.pcd")
-
+list(APPEND PCD "MobilTech_01/000000001.pcd")
+add_custom_command(TARGET 91_PCL_CloudViewer
+    POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E make_directory $<TARGET_FILE_DIR:91_PCL_CloudViewer>/MobilTech_01
+    COMMENT "Creating a data directory"
+)
 add_custom_command(
     TARGET 91_PCL_CloudViewer POST_BUILD
         WORKING_DIRECTORY ${DATA_DIR}
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${PCD} $<TARGET_FILE_DIR:91_PCL_CloudViewer>
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${PCD} $<TARGET_FILE_DIR:91_PCL_CloudViewer>/MobilTech_01
         COMMENT "Copying dependent point cloud data"
 )

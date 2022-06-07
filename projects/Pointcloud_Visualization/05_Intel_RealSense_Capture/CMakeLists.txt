@@ -26,4 +26,4 @@ find_package(realsense2 CONFIG REQUIRED)
 add_executable(95_Intel_RealSense_Capture "main.cpp")
 
 # linking
-target_link_libraries(95_Intel_RealSense_Capture PRIVATE realsense2::fw realsense2::realsense2 realsense2::realsense-file)
+target_link_libraries(95_Intel_RealSense_Capture PRIVATE glfw glad realsense2::fw realsense2::realsense2 realsense2::realsense-file)

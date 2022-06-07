@@ -19,7 +19,8 @@ endif()
 
 # PCL
 #find_package(PCL 1.3 REQUIRED COMPONENTS common io)
-find_package(PCL 1.3 REQUIRED)
+#find_package(PCL 1.3 REQUIRED)
+find_package(PCL CONFIG REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -31,12 +32,16 @@ add_executable(93_OpenGL_CloudViewer_Colormap_Jet "main.cpp")
 target_link_libraries(93_OpenGL_CloudViewer_Colormap_Jet ${PCL_LIBRARIES} glfw glad swan)
 
 # point cloud data
-list(APPEND PCD "000000001.pcd")
-
+list(APPEND PCD "MobilTech_01/000000001.pcd")
+add_custom_command(TARGET 93_OpenGL_CloudViewer_Colormap_Jet
+    POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E make_directory $<TARGET_FILE_DIR:93_OpenGL_CloudViewer_Colormap_Jet>/MobilTech_01
+    COMMENT "Creating a data directory"
+)
 add_custom_command(
     TARGET 93_OpenGL_CloudViewer_Colormap_Jet POST_BUILD
         WORKING_DIRECTORY ${DATA_DIR}
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${PCD} $<TARGET_FILE_DIR:93_OpenGL_CloudViewer_Colormap_Jet>
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different ${PCD} $<TARGET_FILE_DIR:93_OpenGL_CloudViewer_Colormap_Jet>/MobilTech_01
         COMMENT "Copying dependent point cloud data"
 )
 
