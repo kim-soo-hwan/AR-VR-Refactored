@@ -19,9 +19,16 @@ include_directories(${CMAKE_SOURCE_DIR}/third_party/stb)
 # GLM
 include_directories(${CMAKE_SOURCE_DIR}/third_party/glm-0.9.9.8)
 
+# vcpkg
+#if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+#  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+#      CACHE STRING "")
+#endif()
+#set(CMAKE_TOOLCHAIN_FILE "D:\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake")
+
 # Intel RealSense
-include_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0/include)
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0)
+#nclude_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0/include)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0)
 
 # Swan
 include_directories(${CMAKE_SOURCE_DIR}/third_party/swan/include)
@@ -63,6 +70,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/01_PCL_C
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/02_OpenGL_CloudViewer")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/03_OpenGL_CloudViewer_Colormap_Jet")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_Render_to_Texture__Vertex_Shader")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/05_Intel_RealSense_Capture")
 #add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_Compute_Shader")
 # add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/05_Render_to_Texture")
 # add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/06_OpenGL_RGB_LiDAR")

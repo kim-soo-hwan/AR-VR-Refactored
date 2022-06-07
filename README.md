@@ -71,7 +71,7 @@ $ git submodule update --recursive
 ## 6. PCL 설치
 
 1. Windows<br>
-    > `PS> .\vcpkg install pcl`
+    > `PS> .\vcpkg install pcl:x64-windows`
 2. macOS<br>
     > `$ brew install pcl`
 3. Linux<br>
@@ -84,7 +84,7 @@ ref) https://pointclouds.org/downloads/
 ## 7. Intel RealSense 설치
 
 1. Windows<br>
-    > `PS> .\vcpkg install realsense2`
+    > `PS> .\vcpkg install realsense2:x64-windows`
 2. macOS<br>
     > `$ brew install librealsense`
 3. Linux<br>
