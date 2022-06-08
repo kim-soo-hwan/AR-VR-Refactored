@@ -60,9 +60,20 @@ $ git submodule update --recursive
     > ```
     > PS> git clone https://github.com/Microsoft/vcpkg.git
     > PS> cd vcpkg
-    > PS> .\bootstrap-vcpkg.sh
+    > PS> .\bootstrap-vcpkg.bat
     > PS> .\vcpkg integrate install
     > ```
+    >
+    > settings.json
+    > ```
+    > {
+    >   "cmake.configureSettings": {
+    >      "CMAKE_TOOLCHAIN_FILE": "[vcpkg root]/scripts/buildsystems/vcpkg.cmake"
+    >   }
+    > }
+    > ```
+  }
+}
 2. macOS<br>
     > `$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 3. Linux<br>
