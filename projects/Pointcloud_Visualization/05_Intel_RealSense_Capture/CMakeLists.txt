@@ -23,7 +23,8 @@ endif()
 find_package(realsense2 CONFIG REQUIRED)
 
 # executable
-add_executable(95_Intel_RealSense_Capture "main.cpp")
+add_executable(95_Intel_RealSense_Capture "main_hello_world.cpp")
 
 # linking
-target_link_libraries(95_Intel_RealSense_Capture PRIVATE glfw glad realsense2::fw realsense2::realsense2 realsense2::realsense-file)
+#target_link_libraries(95_Intel_RealSense_Capture PRIVATE glfw glad realsense2::fw realsense2::realsense2 realsense2::realsense-file)
+target_link_libraries(95_Intel_RealSense_Capture PRIVATE glfw glad realsense2::realsense2 realsense2::realsense-file)

@@ -35,8 +35,10 @@ endif()
 
 # Intel RealSense
 #include_directories(../ ../../third-party/tclap/include ../../examples)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense/examples)
-#add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0)
+# include_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0/include)
+# include_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0/third-party/tclap/include)
+# include_directories(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0/examples)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/librealsense-2.50.0)
 
 # Swan
 include_directories(${CMAKE_SOURCE_DIR}/third_party/swan/include)
@@ -79,6 +81,9 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/02_OpenG
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/03_OpenGL_CloudViewer_Colormap_Jet")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_Render_to_Texture__Vertex_Shader")
 add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/05_Intel_RealSense_Capture")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/06_Intel_RealSense_ImageViewer")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/07_PCL_Intel_RealSense_CloudViewer")
+add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/08_OpenGL_Intel_RealSense_CloudViewer")
 #add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/04_Compute_Shader")
 # add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/05_Render_to_Texture")
 # add_subdirectory("${CMAKE_SOURCE_DIR}/projects/Pointcloud_Visualization/06_OpenGL_RGB_LiDAR")

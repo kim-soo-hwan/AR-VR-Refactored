@@ -24,8 +24,8 @@ public:
     virtual ~Mesh();
 
     // vertex attributes
-    template<typename T1, typename... Tn>
-    void setVertexAttributes(const GLfloat* data, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
+    template<typename T, typename T1, typename... Tn>
+    void setVertexAttributes(const T* data, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
     {
         // sum up the total number of components for each vertex
         const GLint numComponentsPerVertex = sumNumComponentsPerVertex(numComponentsPerVertex1, numComponentsPerVertexN...);
@@ -42,7 +42,7 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
         // copy the vertex array on host to the array buffer on device (GPU)
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numComponentsPerVertex * numVertices_, data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(T) * numComponentsPerVertex * numVertices_, data, GL_STATIC_DRAW);
 
         // set the vertex attribute pointer    
         setVertexAttributePointer(data, numComponentsPerVertex, 0, numComponentsPerVertex1, numComponentsPerVertexN...);
@@ -73,13 +73,14 @@ protected:
     }
 
     // set vertex attribute pointer using the parameter pack (C++11)
-    void setVertexAttributePointer(const GLfloat* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex) { }
+    template<typename T>
+    void setVertexAttributePointer(const T* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex) { }
 
-    template<typename T1, typename... Tn>
-    void setVertexAttributePointer(const GLfloat* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
+    template<typename T, typename T1, typename... Tn>
+    void setVertexAttributePointer(const T* data, const GLint numComponentsPerVertex, const GLint cummulatedNumComponentsPerVertex, const T1 numComponentsPerVertex1, const Tn... numComponentsPerVertexN)
     {
         // set the vertex attribute pointer
-        glVertexAttribPointer(numVertexAttributes_, numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(GLfloat), reinterpret_cast<void*>(cummulatedNumComponentsPerVertex * sizeof(GLfloat)));
+        glVertexAttribPointer(numVertexAttributes_, numComponentsPerVertex1, GL_FLOAT, GL_FALSE, numComponentsPerVertex * sizeof(T), reinterpret_cast<void*>(cummulatedNumComponentsPerVertex * sizeof(T)));
         glEnableVertexAttribArray(numVertexAttributes_);
 
         // next

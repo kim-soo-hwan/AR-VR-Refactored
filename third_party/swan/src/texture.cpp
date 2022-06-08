@@ -12,8 +12,8 @@ Texture::Texture()
     glGenTextures(1, &id_);
 
     // default setting: GL_REPEAT, GL_NEAREST
-    //setWrapping(GL_REPEAT, GL_REPEAT);
-    //setFiltering(GL_LINEAR, GL_LINEAR);
+    setWrapping(GL_REPEAT, GL_REPEAT);
+    setFiltering(GL_LINEAR, GL_LINEAR);
 }
 
 Texture::Texture(const string& filePath, const bool flipVertically)
@@ -90,6 +90,12 @@ void Texture::setImage(const GLint internalformat, const GLsizei width, const GL
 
     // specify the texture image data
     glTexImage2D(GL_TEXTURE_2D, 0, internalformat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    // glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
     unbind();
 }
