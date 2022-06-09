@@ -21,7 +21,7 @@ int main()
 {
     // PCL
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    if (pcl::io::loadPCDFile<pcl::PointXYZ>("000000001.pcd", *cloud) == -1) //* load the file
+    if (pcl::io::loadPCDFile<pcl::PointXYZ>("MobilTech_01/000000001.pcd", *cloud) == -1) //* load the file
     {
         PCL_ERROR("Couldn't read file 000000001.pcd \n");
         return (-1);
